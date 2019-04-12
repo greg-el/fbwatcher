@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="orgfbtestwatcher" />
+        <module name="org.fb.test.watcher" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="org.fb.test.watcher" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>
