@@ -1,18 +1,21 @@
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import java.util.regex.Pattern;
 
-public class parser {
+public class loginTest {
 
-    public static void main (String[] args) {
-/*
+    public static void main(String[] args) {
+
         Methods methods = new Methods();
-        String rawHTML = methods.getHTMLSource("https://www.facebook.com/groups/guitarexchange");
+        Document group = methods.login("gr3gl@hotmail.com",
+                "Bobfriend1",
+                "https://www.facebook.com/groups/guitarexchange");
 
-        Pattern descPattern = Pattern.compile("(<span>)(.*)(/span>)");
 
-        Document doc = Jsoup.parse(rawHTML);
+        System.out.println(group);
+
+
+/*
 
         Elements descriptions = doc.select("div[class*='_5pbx']");
         Elements titles = doc.select("div[class='_l53']");
@@ -20,6 +23,9 @@ public class parser {
         Elements locations = doc.select("div[class='_l58']");
         Elements urls = doc.select("div[id*='feed_subtitle']");
 
+
+        System.out.println(descriptions);
+        System.out.println(titles);
 
         for (int i=0; i<10; i++) {
             System.out.println(descriptions.get(i).text());
@@ -29,14 +35,8 @@ public class parser {
             System.out.println(urls.get(i).text());
             System.out.println("\n");
         }
-
-
-        System.out.println(descriptions);
-        System.out.println(titles);
-        System.out.println(prices);
-        System.out.println(locations);
-        System.out.println(urls);
         */
 
     }
+
 }
