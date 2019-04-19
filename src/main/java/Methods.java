@@ -56,6 +56,7 @@ public class Methods {
     }
 
     public List getGroupPosts(WebDriver driver, String url) {
+        // groups have all kind of weird post content, make sure it works for all of em
         Methods methods = new Methods();
         String rawHTML = methods.getHTMLSource(url, driver);
         Document doc = Jsoup.parse(rawHTML);
