@@ -1,36 +1,99 @@
-import org.jsoup.Connection;
+import org.jsoup.select.Elements;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.util.*;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class Methods {
 
-    public Document login(String email, String password, String group) {
-        Connection.Response req;
-        try {
-            String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36";
+    public String getHTMLSource(String url, WebDriver driver) {
+        driver.get(url);
+        return(driver.getPageSource());
+    }
 
-            req = Jsoup.connect("https://m.facebook.com/login/async/?refsrc=https%3A%2F%2Fm.facebook.com%2F&lwv=101")
-                    .userAgent(userAgent)
-                    .method(Connection.Method.POST).data("email", email).data("pass", password)
-                    .followRedirects(true)
-                    .execute();
+    public WebDriver login(String email, String password, WebDriver driver) {
+        driver.get("https://www.facebook.com/");
+        driver.findElement(By.xpath("//input[@id='email']")).sendKeys(email);
+        driver.findElement(By.xpath("//input[@id='pass']")).sendKeys(password);
+        driver.findElement(By.xpath("//input[starts-with(@id, 'u_0_')][@value='Log In']")).click();
+        return driver;
+    }
 
+    public Map getMemberGroups(WebDriver driver) {
+        //New method instance
+        Methods methods = new Methods();
 
-            Document d = Jsoup.connect(group)
-                    .userAgent(userAgent)
-                    .cookies(req.cookies())
-                    .get();
+        //Getting group page html
+        String rawHTML = methods.getHTMLSource("https://www.facebook.com/groups/?category=membership", driver);
+        Document doc = Jsoup.parse(rawHTML);
 
-            return d;
-        } catch (Exception e) {
-            e.printStackTrace();
+        //Regex init
+        String urlString = "(href=\")(.*?)(?=\")";
+        String nameString = "(>)(.*?)(?=<)";
+        Pattern urlPattern = Pattern.compile(urlString);
+        Pattern namePattern = Pattern.compile(nameString);
+
+        //return dict
+        Map<String, String> strGroups = new HashMap<String, String>();
+
+        //selecting and adding to strGroups
+        Elements groups = doc.select("div[class='_266w']");
+
+        for (int i=0; i<groups.size(); i++) {
+            String groupString = groups.get(i).toString();
+            Matcher urlM = urlPattern.matcher(groupString);
+            Matcher nameM = namePattern.matcher(groupString);
+            if (urlM.find() && nameM.find()) {
+                strGroups.put(nameM.group(2), urlM.group(2));
+            }
         }
-        return null;
+
+        return strGroups;
+    }
+
+    public List getGroupPosts(WebDriver driver, String url) {
+        Methods methods = new Methods();
+        String rawHTML = methods.getHTMLSource(url, driver);
+        Document doc = Jsoup.parse(rawHTML);
+
+        String patternString = "(href=\")(.*?)(?=\")";
+        Pattern p = Pattern.compile(patternString);
+        List groupPosts = new ArrayList();
+
+        Elements descriptions = doc.select("div[class*='_5pbx']");
+        Elements titles = doc.select("div[class='_l53']");
+        Elements prices = doc.select("div[class='_l57']");
+        Elements locations = doc.select("div[class='_l58']");
+        Elements dates = doc.select("div[id*='feed_subtitle']");
+
+        Elements urls = doc.select("span[class='fsm fwn fcg']");
+
+        System.out.println(doc);
+        int i;
+
+        System.out.println(urls.size());
+        for (i = 0; i<urls.size(); i++) {
+            Matcher m = p.matcher(urls.get(i).toString());
+            System.out.println(titles.get(i));
+            if (m.find()) {
+                List<String> tempGroupList = Arrays.asList(m.group(2),
+                        descriptions.get(i).toString(),
+                        titles.get(i).toString(),
+                        prices.get(i).toString(),
+                        locations.get(i).toString(),
+                        dates.get(i).toString());
+
+                tempGroupList.add(String.valueOf(groupPosts));
+
+            }
+
+        }
+        return groupPosts;
+
     }
 
 }

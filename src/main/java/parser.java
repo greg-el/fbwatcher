@@ -1,42 +1,29 @@
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-import java.util.regex.Pattern;
+import java.util.List;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public class parser {
 
     public static void main (String[] args) {
-/*
+        //chrome webdriver executable location
+        System.setProperty("webdriver.chrome.driver", "/home/greg/IdeaProjects/orgfbtestwatcher/chromedriver");
+
+        //creating methods instance
         Methods methods = new Methods();
-        String rawHTML = methods.getHTMLSource("https://www.facebook.com/groups/guitarexchange");
 
-        Pattern descPattern = Pattern.compile("(<span>)(.*)(/span>)");
+        //webdriver options
+        ChromeOptions options = new ChromeOptions();
+        options.setHeadless(true);
+        WebDriver driver = new ChromeDriver(options);
 
-        Document doc = Jsoup.parse(rawHTML);
-
-        Elements descriptions = doc.select("div[class*='_5pbx']");
-        Elements titles = doc.select("div[class='_l53']");
-        Elements prices = doc.select("div[class='_l57']");
-        Elements locations = doc.select("div[class='_l58']");
-        Elements urls = doc.select("div[id*='feed_subtitle']");
+        WebDriver loggedDriver = methods.login("gr3gl@hotmail.com", "Bobfriend1", driver);
 
 
-        for (int i=0; i<10; i++) {
-            System.out.println(descriptions.get(i).text());
-            System.out.println(titles.get(i).text());
-            System.out.println(prices.get(i).text());
-            System.out.println(locations.get(i).text());
-            System.out.println(urls.get(i).text());
-            System.out.println("\n");
-        }
+        List groupPosts = methods.getGroupPosts(loggedDriver, "https://www.facebook.com/groups/ukmusiciansforgigs/");
 
+        System.out.println(groupPosts);
 
-        System.out.println(descriptions);
-        System.out.println(titles);
-        System.out.println(prices);
-        System.out.println(locations);
-        System.out.println(urls);
-        */
-
+        loggedDriver.quit();
     }
 }
