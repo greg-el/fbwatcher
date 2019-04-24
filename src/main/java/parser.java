@@ -14,7 +14,8 @@ public class parser {
 
         //webdriver options
         ChromeOptions options = new ChromeOptions();
-        options.setHeadless(true);
+        options.setHeadless(false);
+        options.addArguments("--disable-notifications");
         WebDriver driver = new ChromeDriver(options);
 
         WebDriver loggedDriver = methods.login("gr3gl@hotmail.com", "Bobfriend1", driver);

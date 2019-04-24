@@ -1,19 +1,18 @@
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.openqa.selenium.WebElement;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 public class Methods {
 
-    public String getHTMLSource(String url, WebDriver driver) {
-        driver.get(url);
-        return(driver.getPageSource());
-    }
 
     public WebDriver login(String email, String password, WebDriver driver) {
         driver.get("https://www.facebook.com/");
@@ -28,7 +27,8 @@ public class Methods {
         Methods methods = new Methods();
 
         //Getting group page html
-        String rawHTML = methods.getHTMLSource("https://www.facebook.com/groups/?category=membership", driver);
+        driver.get("https://www.facebook.com/groups/?category=membership");
+        String rawHTML = driver.getPageSource();
         Document doc = Jsoup.parse(rawHTML);
 
         //Regex init
@@ -57,9 +57,25 @@ public class Methods {
 
     public List getGroupPosts(WebDriver driver, String url) {
         // groups have all kind of weird post content, make sure it works for all of em
-        Methods methods = new Methods();
-        String rawHTML = methods.getHTMLSource(url, driver);
+        driver.get(url);
+        String rawHTML = driver.getPageSource();
         Document doc = Jsoup.parse(rawHTML);
+
+
+        List<WebElement> clickSeeMore = driver.findElements(By.linkText("See more"));
+        for (WebElement e : clickSeeMore) {
+            e.click();
+            driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+        }
+
+
+
+        List<WebElement> desctest = driver.findElements(By.cssSelector("div[class*='_4-u2 mbm _4mrt _5jmm _5pat _5v3q _7cqq _4-u8']"));
+        for (WebElement e : desctest) {
+            System.out.println(e.findElement(By.cssSelector("div[class*='_5pbx']")).getText());
+            System.out.println("\n\n");
+        }
+
 
         String patternString = "(href=\")(.*?)(?=\")";
         Pattern p = Pattern.compile(patternString);
@@ -72,14 +88,10 @@ public class Methods {
         Elements dates = doc.select("div[id*='feed_subtitle']");
 
         Elements urls = doc.select("span[class='fsm fwn fcg']");
-
-        System.out.println(doc);
         int i;
 
-        System.out.println(urls.size());
         for (i = 0; i<urls.size(); i++) {
             Matcher m = p.matcher(urls.get(i).toString());
-            System.out.println(titles.get(i));
             if (m.find()) {
                 List<String> tempGroupList = Arrays.asList(m.group(2),
                         descriptions.get(i).toString(),
@@ -98,3 +110,4 @@ public class Methods {
     }
 
 }
+
