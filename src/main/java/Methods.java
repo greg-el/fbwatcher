@@ -1,12 +1,13 @@
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -57,6 +58,8 @@ public class Methods {
     }
 
     public List getGroupPosts(WebDriver driver, String url) {
+
+        List returnList = new ArrayList();
         // groups have all kind of weird post content, make sure it works for all of em
         driver.get(url);
         String rawHTML = driver.getPageSource();
@@ -72,53 +75,68 @@ public class Methods {
 
 
 
-        List<WebElement> desctest = driver.findElements(By.cssSelector("div[class*='_4-u2 mbm _4mrt _5jmm _5pat _5v3q _7cqq _4-u8']"));
-        for (WebElement e : desctest) {
+        List<WebElement> postHolder = driver.findElements(By.cssSelector("div[class*='_4-u2 mbm _4mrt _5jmm _5pat _5v3q _7cqq _4-u8']"));
+        for (WebElement e : postHolder) {
+            PostObject postObject = new PostObject();
             try {
-                System.out.println(e.findElement(By.cssSelector("div[class*='_5pbx']")).getText());
-                System.out.println(e.findElement(By.cssSelector("div[class='_l53']")).getText());
-                System.out.println(e.findElement(By.cssSelector("div[class='_l57']")).getText());
-                System.out.println(e.findElement(By.cssSelector("div[class='_l58']")).getText());
-                System.out.println(e.findElement(By.cssSelector("div[id*='feed_subtitle']")).getText());
-                System.out.println(e.findElement(By.cssSelector("span[class='fsm fwn fcg']")).getText());
-            } catch(Exception ex) {
-                System.out.println("Not a post");
-            }
-            System.out.println("\n\n");
+                postObject.description = e.findElement(By.cssSelector("div[class*='_5pbx']")).getText();
+
+            } catch(NoSuchElementException ex) { }
+
+            try {
+                postObject.title = e.findElement(By.cssSelector("div[class='_l53']")).getText();
+            } catch(NoSuchElementException ex) { }
+
+            try {
+                postObject.price = e.findElement(By.cssSelector("div[class='_l57']")).getText();
+            } catch(NoSuchElementException ex) { }
+
+            try {
+                postObject.location = e.findElement(By.cssSelector("div[class='_l58']")).getText();
+            } catch(NoSuchElementException ex) { }
+
+            // datetime
+            try {
+                long unixTime = Integer.parseInt(e.findElement(By.cssSelector("abbr[class='_5ptz timestamp livetimestamp']")).getAttribute("data-utime"));
+                // to ms
+                Date date = new Date(unixTime*1000L);
+                // formatting
+                SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+                dt.setTimeZone(TimeZone.getTimeZone("UTC"));
+                postObject.datetime = dt.format(date);
+            } catch(NoSuchElementException ex) { }
+
+            // sometimes its a different way? thanks facebook
+            try {
+                long unixTime = Integer.parseInt(e.findElement(By.cssSelector("abbr[class='_5ptz']")).getAttribute("data-utime"));
+                // to ms
+                Date date = new Date(unixTime*1000L);
+                // formatting
+                SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                dt.setTimeZone(TimeZone.getTimeZone("UTC"));
+                postObject.datetime = dt.format(date);
+            } catch(NoSuchElementException ex) { }
+
+
+            // post url
+            try {
+                postObject.url = e.findElement(By.cssSelector("a[class='_5pcq']")).getAttribute("href");
+            } catch(NoSuchElementException ex) { }
+
+            // also sometimes a different way
+            try {
+                WebElement testurl = e.findElement(By.cssSelector("span[class='fsm fwn fcg']"));
+                String test2 = testurl.findElement(By.cssSelector("a")).getAttribute("href");
+                postObject.url = test2;
+
+            } catch(NoSuchElementException ex) { }
+
+            returnList.add(postObject);
+
         }
-
-
-        String patternString = "(href=\")(.*?)(?=\")";
-        Pattern p = Pattern.compile(patternString);
-        List groupPosts = new ArrayList();
-
-        Elements descriptions = doc.select("div[class*='_5pbx']");
-        Elements titles = doc.select("div[class='_l53']");
-        Elements prices = doc.select("div[class='_l57']");
-        Elements locations = doc.select("div[class='_l58']");
-        Elements dates = doc.select("div[id*='feed_subtitle']");
-
-        Elements urls = doc.select("span[class='fsm fwn fcg']");
-        int i;
-
-        for (i = 0; i<urls.size(); i++) {
-            Matcher m = p.matcher(urls.get(i).toString());
-            if (m.find()) {
-                List<String> tempGroupList = Arrays.asList(m.group(2),
-                        descriptions.get(i).toString(),
-                        titles.get(i).toString(),
-                        prices.get(i).toString(),
-                        locations.get(i).toString(),
-                        dates.get(i).toString());
-
-                tempGroupList.add(String.valueOf(groupPosts));
-
-            }
-
-        }
-        return groupPosts;
-
+        return returnList;
     }
+
 
 }
 

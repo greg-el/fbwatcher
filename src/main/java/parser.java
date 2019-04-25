@@ -21,9 +21,11 @@ public class parser {
         WebDriver loggedDriver = methods.login("gr3gl@hotmail.com", "Bobfriend1", driver);
 
 
-        List groupPosts = methods.getGroupPosts(loggedDriver, "https://www.facebook.com/groups/ukmusiciansforgigs/");
+        List groupPost = methods.getGroupPosts(loggedDriver, "https://www.facebook.com/groups/depsuk/");
 
-        System.out.println(groupPosts);
+        for (Object e : groupPost) {
+            System.out.println(e.toString());
+        }
 
         loggedDriver.quit();
     }

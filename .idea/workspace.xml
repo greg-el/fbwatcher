@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="111b3b27-62bc-4012-99b3-13cea75fc253" name="Default Changelist" comment="">
+    <list default="true" id="111b3b27-62bc-4012-99b3-13cea75fc253" name="Default Changelist" comment="updates">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Methods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Methods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ReturnObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PostObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/databaseSetup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/databaseSetup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/parser.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -31,33 +33,38 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="35" lean-forward="true" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+            <state relative-caret-position="405">
+              <caret line="27" column="9" lean-forward="true" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Methods.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="81" column="13" lean-forward="true" selection-start-line="81" selection-start-column="13" selection-end-line="81" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#login#0;class#Methods#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ReturnObject.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Methods.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" selection-start-line="5" selection-end-line="5" />
+            <state relative-caret-position="375">
+              <caret line="134" lean-forward="true" selection-start-line="134" selection-end-line="134" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#login#0;class#Methods#0" />
+                <element signature="method#getMemberGroups#0;class#Methods#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/PostObject.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" column="29" lean-forward="true" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
+              <folding>
+                <element signature="e#271#272#0" expanded="true" />
+                <element signature="e#351#352#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -65,8 +72,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/databaseSetup.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="53" selection-start-line="4" selection-start-column="53" selection-end-line="4" selection-end-column="53" />
+            <state relative-caret-position="255">
+              <caret line="17" column="33" lean-forward="true" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -93,11 +100,12 @@
         <option value="$PROJECT_DIR$/src/main/java/loginTest.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/database.java" />
-        <option value="$PROJECT_DIR$/src/main/java/databaseSetup.java" />
         <option value="$PROJECT_DIR$/src/main/java/NamedObject.java" />
         <option value="$PROJECT_DIR$/src/main/java/ReturnObject.java" />
+        <option value="$PROJECT_DIR$/src/main/java/databaseSetup.java" />
         <option value="$PROJECT_DIR$/src/main/java/parser.java" />
         <option value="$PROJECT_DIR$/src/main/java/Methods.java" />
+        <option value="$PROJECT_DIR$/src/main/java/PostObject.java" />
       </list>
     </option>
   </component>
@@ -289,7 +297,14 @@
       <option name="project" value="LOCAL" />
       <updated>1556142146261</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="updates">
+      <created>1556153493586</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1556153493586</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -305,7 +320,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49945828" visible="true" weight="0.55709714" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49945828" weight="0.29348987" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3991462" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -313,7 +328,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32977587" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5005417" side_tool="true" weight="0.32977587" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32977587" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.32977587" />
+      <window_info active="true" anchor="bottom" id="Messages" order="10" visible="true" weight="0.32977587" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -351,37 +366,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/databaseSetup.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="53" selection-start-line="4" selection-start-column="53" selection-end-line="4" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/parser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="35" lean-forward="true" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+        <state relative-caret-position="405">
+          <caret line="27" column="9" lean-forward="true" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ReturnObject.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/databaseSetup.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        <state relative-caret-position="255">
+          <caret line="17" column="33" lean-forward="true" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Methods.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="81" column="13" lean-forward="true" selection-start-line="81" selection-start-column="13" selection-end-line="81" selection-end-column="13" />
+        <state relative-caret-position="375">
+          <caret line="134" lean-forward="true" selection-start-line="134" selection-end-line="134" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#login#0;class#Methods#0" />
+            <element signature="method#getMemberGroups#0;class#Methods#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/PostObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="29" lean-forward="true" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
+          <folding>
+            <element signature="e#271#272#0" expanded="true" />
+            <element signature="e#351#352#0" expanded="true" />
           </folding>
         </state>
       </provider>

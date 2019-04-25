@@ -3,8 +3,12 @@ import java.sql.*;
 public class databaseSetup {
 
     private static final String POSTS_TABLE = "create table data " +
-            "(id INTEGER not NULL, " +
-            " price VARCHAR(255)";
+            "(description VARCHAR(63206 ), " +
+            " title VARCHAR(255), " +
+            " price VARCHAR(7), " +
+            " location VARCHAR(100), " +
+            " datetime DATETIME, " +
+            " url VARCHAR(150)";
 
 
     public static void main(String[] args){
