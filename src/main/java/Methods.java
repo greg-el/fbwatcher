@@ -24,46 +24,29 @@ public class Methods {
         return driver;
     }
 
-    public Map getMemberGroups(WebDriver driver) {
-        //New method instance
-        Methods methods = new Methods();
+    public List getMemberGroups(WebDriver driver) {
+        List<List> groupsList = new ArrayList();
 
         //Getting group page html
         driver.get("https://www.facebook.com/groups/?category=membership");
-        String rawHTML = driver.getPageSource();
-        Document doc = Jsoup.parse(rawHTML);
-
-        //Regex init
-        String urlString = "(href=\")(.*?)(?=\")";
-        String nameString = "(>)(.*?)(?=<)";
-        Pattern urlPattern = Pattern.compile(urlString);
-        Pattern namePattern = Pattern.compile(nameString);
-
-        //return dict
-        Map<String, String> strGroups = new HashMap<String, String>();
-
-        //selecting and adding to strGroups
-        Elements groups = doc.select("div[class='_266w']");
-
-        for (int i=0; i<groups.size(); i++) {
-            String groupString = groups.get(i).toString();
-            Matcher urlM = urlPattern.matcher(groupString);
-            Matcher nameM = namePattern.matcher(groupString);
-            if (urlM.find() && nameM.find()) {
-                strGroups.put(nameM.group(2), urlM.group(2));
-            }
+        List<WebElement> groupInfo = driver.findElements(By.cssSelector("div[class='_266w"));
+        for (WebElement e : groupInfo) {
+            List<String> tempArray = new ArrayList();
+            String test = e.findElement(By.cssSelector("a")).getAttribute("href");
+            int length = test.length();
+            tempArray.add(test.substring(0, length-22));
+            tempArray.add(e.getText());
+            groupsList.add(tempArray);
         }
-
-        return strGroups;
+        return groupsList;
     }
 
     public List getGroupPosts(WebDriver driver, String url) {
 
+        System.out.println(url);
+        System.out.println("Collecting group posts...");
         List returnList = new ArrayList();
-        // groups have all kind of weird post content, make sure it works for all of em
         driver.get(url);
-        String rawHTML = driver.getPageSource();
-        Document doc = Jsoup.parse(rawHTML);
 
 
         List<WebElement> clickSeeMore = driver.findElements(By.cssSelector("a[class='see_more_link'"));

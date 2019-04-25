@@ -3,7 +3,7 @@ import java.sql.*;
 public class databaseSetup {
 
     private static final String POSTS_TABLE = "create table data " +
-            "(description VARCHAR(63206 ), " +
+            "(description VARCHAR(63206), " +
             " title VARCHAR(255), " +
             " price VARCHAR(7), " +
             " location VARCHAR(100), " +

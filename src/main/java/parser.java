@@ -3,6 +3,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.util.Scanner;
+
 public class parser {
 
     public static void main (String[] args) {
@@ -19,13 +21,15 @@ public class parser {
         WebDriver driver = new ChromeDriver(options);
 
         WebDriver loggedDriver = methods.login("gr3gl@hotmail.com", "Bobfriend1", driver);
+        List listGroups = methods.getMemberGroups(loggedDriver);
 
 
-        List groupPost = methods.getGroupPosts(loggedDriver, "https://www.facebook.com/groups/depsuk/");
 
-        for (Object e : groupPost) {
-            System.out.println(e.toString());
-        }
+
+        Scanner groups = new Scanner(System.in);
+        System.out.println("What group do you want to scrape today: " + listGroups);
+        String groupInput = groups.nextLine();
+        methods.getGroupPosts(loggedDriver, groupInput);
 
         loggedDriver.quit();
     }
