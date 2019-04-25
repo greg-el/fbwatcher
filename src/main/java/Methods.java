@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -62,9 +63,10 @@ public class Methods {
         Document doc = Jsoup.parse(rawHTML);
 
 
-        List<WebElement> clickSeeMore = driver.findElements(By.linkText("See more"));
+        List<WebElement> clickSeeMore = driver.findElements(By.cssSelector("a[class='see_more_link'"));
+        Actions actions = new Actions(driver);
         for (WebElement e : clickSeeMore) {
-            e.click();
+            actions.moveToElement(e).click().build().perform();
             driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
         }
 
@@ -72,7 +74,16 @@ public class Methods {
 
         List<WebElement> desctest = driver.findElements(By.cssSelector("div[class*='_4-u2 mbm _4mrt _5jmm _5pat _5v3q _7cqq _4-u8']"));
         for (WebElement e : desctest) {
-            System.out.println(e.findElement(By.cssSelector("div[class*='_5pbx']")).getText());
+            try {
+                System.out.println(e.findElement(By.cssSelector("div[class*='_5pbx']")).getText());
+                System.out.println(e.findElement(By.cssSelector("div[class='_l53']")).getText());
+                System.out.println(e.findElement(By.cssSelector("div[class='_l57']")).getText());
+                System.out.println(e.findElement(By.cssSelector("div[class='_l58']")).getText());
+                System.out.println(e.findElement(By.cssSelector("div[id*='feed_subtitle']")).getText());
+                System.out.println(e.findElement(By.cssSelector("span[class='fsm fwn fcg']")).getText());
+            } catch(Exception ex) {
+                System.out.println("Not a post");
+            }
             System.out.println("\n\n");
         }
 
