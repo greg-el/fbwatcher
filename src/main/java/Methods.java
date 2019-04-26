@@ -1,17 +1,14 @@
-import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+
+import javax.swing.*;
 
 public class Methods {
 
@@ -25,18 +22,18 @@ public class Methods {
     }
 
     public List getMemberGroups(WebDriver driver) {
-        List<List> groupsList = new ArrayList();
+        List groupsList = new ArrayList();
 
         //Getting group page html
         driver.get("https://www.facebook.com/groups/?category=membership");
         List<WebElement> groupInfo = driver.findElements(By.cssSelector("div[class='_266w"));
         for (WebElement e : groupInfo) {
-            List<String> tempArray = new ArrayList();
+            GroupObject tempGroup = new GroupObject();
             String test = e.findElement(By.cssSelector("a")).getAttribute("href");
             int length = test.length();
-            tempArray.add(test.substring(0, length-22));
-            tempArray.add(e.getText());
-            groupsList.add(tempArray);
+            tempGroup.url = test.substring(0, length-22);
+            tempGroup.name = e.getText();
+            groupsList.add(tempGroup);
         }
         return groupsList;
     }
@@ -120,6 +117,21 @@ public class Methods {
         return returnList;
     }
 
+    public JList sortList(JList list) {
+        ListModel model = list.getModel();
 
+        int n = model.getSize();
+        String[] data = new String[n];
+
+        for (int i=0; i<n; i++) {
+            data[i] = (String) model.getElementAt(i);
+        }
+
+        Arrays.sort(data);
+
+        list.setListData(data);
+
+        return list;
+    }
 }
 
