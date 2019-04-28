@@ -54,7 +54,6 @@ public class Methods {
         }
 
 
-
         List<WebElement> postHolder = driver.findElements(By.cssSelector("div[class*='_4-u2 mbm _4mrt _5jmm _5pat _5v3q _7cqq _4-u8']"));
         for (WebElement e : postHolder) {
             PostObject postObject = new PostObject();
@@ -76,26 +75,22 @@ public class Methods {
             } catch(NoSuchElementException ex) { }
 
             // datetime
+            long unixTime = 0;
             try {
-                long unixTime = Integer.parseInt(e.findElement(By.cssSelector("abbr[class='_5ptz timestamp livetimestamp']")).getAttribute("data-utime"));
-                // to ms
-                Date date = new Date(unixTime*1000L);
-                // formatting
-                SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
-                dt.setTimeZone(TimeZone.getTimeZone("UTC"));
-                postObject.datetime = dt.format(date);
+                unixTime = Integer.parseInt(e.findElement(By.cssSelector("abbr[class='_5ptz timestamp livetimestamp']")).getAttribute("data-utime"));
             } catch(NoSuchElementException ex) { }
 
             // sometimes its a different way? thanks facebook
             try {
-                long unixTime = Integer.parseInt(e.findElement(By.cssSelector("abbr[class='_5ptz']")).getAttribute("data-utime"));
-                // to ms
-                Date date = new Date(unixTime*1000L);
-                // formatting
-                SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                dt.setTimeZone(TimeZone.getTimeZone("UTC"));
-                postObject.datetime = dt.format(date);
+                unixTime = Integer.parseInt(e.findElement(By.cssSelector("abbr[class='_5ptz']")).getAttribute("data-utime"));
             } catch(NoSuchElementException ex) { }
+
+            // to ms
+            Date date = new Date(unixTime*1000L);
+            // formatting
+            SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            dt.setTimeZone(TimeZone.getTimeZone("UTC"));
+            postObject.datetime = dt.format(date);
 
 
             // post url
@@ -117,21 +112,5 @@ public class Methods {
         return returnList;
     }
 
-    public JList sortList(JList list) {
-        ListModel model = list.getModel();
-
-        int n = model.getSize();
-        String[] data = new String[n];
-
-        for (int i=0; i<n; i++) {
-            data[i] = (String) model.getElementAt(i);
-        }
-
-        Arrays.sort(data);
-
-        list.setListData(data);
-
-        return list;
-    }
 }
 
