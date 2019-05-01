@@ -1,29 +1,29 @@
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+
 
 import java.util.List;
 
 
 public class parser {
     public static void main (String[] args) {
-        //chrome webdriver executable location
-        System.setProperty("webdriver.chrome.driver", "/home/greg/IdeaProjects/orgfbtestwatcher/chromedriver");
-
+        /*
         //creating methods instance
         final Methods methods = new Methods();
 
-        //webdriver options
-        ChromeOptions options = new ChromeOptions();
-        options.setHeadless(true);
-        options.addArguments("--disable-notifications");
-        WebDriver driver = new ChromeDriver(options);
+        WebDriver driver = methods.createDriver();
 
-        WebDriver loggedDriver = methods.login("gr3gl@hotmail.com", "Bobfriend1", driver);
+        WebDriver loggedDriver = methods.login(driver);
 
-        UI ui = new UI();
-        ui.create(loggedDriver);
+        List<PostObject> groupPosts = methods.getGroupPosts(loggedDriver, "https://www.facebook.com/groups/fleetpeople");
+
+        for (PostObject post: groupPosts) {
+            System.out.println(post.title);
+        }
 
         loggedDriver.quit();
+
+         */
+        Tests tests = new Tests();
+        tests.testGroupReturn();
     }
 }

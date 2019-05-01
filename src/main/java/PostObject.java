@@ -10,4 +10,28 @@ class PostObject {
     public String toString() {
         return (description + title + price + location + datetime + url);
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public String getUrl() {
+        return url;
+    }
 }

@@ -2,18 +2,28 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
 
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
+import java.util.Scanner;
 
 public class Methods {
 
 
-    public WebDriver login(String email, String password, WebDriver driver) {
+    public WebDriver login(WebDriver driver) {
+        Scanner login = new Scanner(System.in);
+        System.out.println("Username: ");
+        String email = login.nextLine();
+        System.out.println("Password: ");
+        String password = login.nextLine();
         driver.get("https://www.facebook.com/");
         driver.findElement(By.xpath("//input[@id='email']")).sendKeys(email);
         driver.findElement(By.xpath("//input[@id='pass']")).sendKeys(password);
@@ -38,7 +48,7 @@ public class Methods {
         return groupsList;
     }
 
-    public List getGroupPosts(WebDriver driver, String url) {
+    public List<PostObject> getGroupPosts(WebDriver driver, String url) {
 
         System.out.println(url);
         System.out.println("Collecting group posts...");
@@ -110,6 +120,18 @@ public class Methods {
 
         }
         return returnList;
+    }
+
+    public WebDriver createDriver() {
+        //chrome webdriver executable location
+        System.setProperty("webdriver.chrome.driver", "/home/greg/IdeaProjects/orgfbtestwatcher/chromedriver");
+
+        //webdriver options
+        ChromeOptions options = new ChromeOptions();
+        options.setHeadless(true);
+        options.addArguments("--disable-notifications");
+        WebDriver driver = new ChromeDriver(options);
+        return driver;
     }
 
 }
