@@ -6,24 +6,31 @@ import java.util.List;
 
 public class parser {
     public static void main (String[] args) {
-        /*
+
         //creating methods instance
         final Methods methods = new Methods();
+        final databaseSetup db = new databaseSetup();
+        db.main();
 
         WebDriver driver = methods.createDriver();
-
         WebDriver loggedDriver = methods.login(driver);
 
-        List<PostObject> groupPosts = methods.getGroupPosts(loggedDriver, "https://www.facebook.com/groups/fleetpeople");
+        /*
+        List<Post> groupPosts = methods.getGroupPosts(loggedDriver, "https://www.facebook.com/groups/fleetpeople");
 
-        for (PostObject post: groupPosts) {
-            System.out.println(post.title);
+        for (Post post: groupPosts) {
+            System.out.println(post.toString());
         }
+        */
+
+
+
+        List<Group> groups = methods.getMemberGroups(loggedDriver);
+
+        methods.addGroupsToDatabase(groups);
 
         loggedDriver.quit();
 
-         */
-        Tests tests = new Tests();
-        tests.testGroupReturn();
+
     }
 }

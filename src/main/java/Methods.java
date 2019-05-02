@@ -1,11 +1,9 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 
+import java.sql.*;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
@@ -14,6 +12,8 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Methods {
 
@@ -31,26 +31,53 @@ public class Methods {
         return driver;
     }
 
-    public List getMemberGroups(WebDriver driver) {
-        List groupsList = new ArrayList();
+    public List<Group> getMemberGroups(WebDriver driver) {
+        List<Group> groupsList = new ArrayList<Group>();
+        String pattern = "(\\/)(\\d+)(?=\\/)";
+        Pattern urlNumber = Pattern.compile(pattern);
+
 
         //Getting group page html
         driver.get("https://www.facebook.com/groups/?category=membership");
-        List<WebElement> groupInfo = driver.findElements(By.cssSelector("div[class='_266w"));
+
+
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        boolean stop = false;
+        while (!stop) {
+            try {
+                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+                WebElement seeMoreButton = driver.findElement(By.linkText("See more..."));
+                seeMoreButton.click();
+                jse.executeScript("document.getElementsByClassName('uiScrollableAreaWrap scrollable')[0].focus();");
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+                jse.executeScript("document.getElementsByClassName('uiScrollableAreaWrap scrollable')[0].scrollTop += 1100;");
+            } catch (org.openqa.selenium.NoSuchElementException e) {
+                stop = true;
+            }
+        }
+
+        List<WebElement> groupInfo = driver.findElements(By.cssSelector("div[class='_2yaa"));
         for (WebElement e : groupInfo) {
-            GroupObject tempGroup = new GroupObject();
-            String test = e.findElement(By.cssSelector("a")).getAttribute("href");
-            int length = test.length();
-            tempGroup.url = test.substring(0, length-22);
-            tempGroup.name = e.getText();
+            Group tempGroup = new Group();
+            String url = e.findElement(By.className("_2yau")).getAttribute("href");
+            String name = e.findElement(By.className("_2yav")).getText();
+            Matcher m = urlNumber.matcher(url);
+            if (m.find()) {
+                tempGroup.setUrl(m.group(2));
+            } else {
+                System.out.println("No match");
+            }
+            tempGroup.setName(name);
             groupsList.add(tempGroup);
         }
         return groupsList;
     }
 
-    public List<PostObject> getGroupPosts(WebDriver driver, String url) {
-
-        System.out.println(url);
+    public List<Post> getGroupPosts(WebDriver driver, String url) {
         System.out.println("Collecting group posts...");
         List returnList = new ArrayList();
         driver.get(url);
@@ -63,25 +90,26 @@ public class Methods {
             driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
         }
 
+        Pattern urlNumber = Pattern.compile("(\\/)(\\d*)(?=\\/$)");
 
         List<WebElement> postHolder = driver.findElements(By.cssSelector("div[class*='_4-u2 mbm _4mrt _5jmm _5pat _5v3q _7cqq _4-u8']"));
         for (WebElement e : postHolder) {
-            PostObject postObject = new PostObject();
+            Post post = new Post();
             try {
-                postObject.description = e.findElement(By.cssSelector("div[class*='_5pbx']")).getText();
+                post.setDescription(e.findElement(By.cssSelector("div[class*='_5pbx']")).getText());
 
             } catch(NoSuchElementException ex) { }
 
             try {
-                postObject.title = e.findElement(By.cssSelector("div[class='_l53']")).getText();
+                post.setTitle(e.findElement(By.cssSelector("div[class='_l53']")).getText());
             } catch(NoSuchElementException ex) { }
 
             try {
-                postObject.price = e.findElement(By.cssSelector("div[class='_l57']")).getText();
+                post.setPrice(e.findElement(By.cssSelector("div[class='_l57']")).getText());
             } catch(NoSuchElementException ex) { }
 
             try {
-                postObject.location = e.findElement(By.cssSelector("div[class='_l58']")).getText();
+                post.setLocation(e.findElement(By.cssSelector("div[class='_l58']")).getText());
             } catch(NoSuchElementException ex) { }
 
             // datetime
@@ -100,23 +128,23 @@ public class Methods {
             // formatting
             SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             dt.setTimeZone(TimeZone.getTimeZone("UTC"));
-            postObject.datetime = dt.format(date);
+            post.setDatetime(dt.format(date));
 
 
             // post url
             try {
-                postObject.url = e.findElement(By.cssSelector("a[class='_5pcq']")).getAttribute("href");
+                post.setUrl(e.findElement(By.cssSelector("a[class='_5pcq']")).getAttribute("href"));
             } catch(NoSuchElementException ex) { }
 
             // also sometimes a different way
             try {
                 WebElement testurl = e.findElement(By.cssSelector("span[class='fsm fwn fcg']"));
-                String test2 = testurl.findElement(By.cssSelector("a")).getAttribute("href");
-                postObject.url = test2;
+                String postUrl = testurl.findElement(By.cssSelector("a")).getAttribute("href");
+                post.setUrl(postUrl);
 
             } catch(NoSuchElementException ex) { }
 
-            returnList.add(postObject);
+            returnList.add(post);
 
         }
         return returnList;
@@ -132,6 +160,62 @@ public class Methods {
         options.addArguments("--disable-notifications");
         WebDriver driver = new ChromeDriver(options);
         return driver;
+    }
+
+    public void addPostsToDatabase(List<Post> posts) {
+        PreparedStatement pstmt;
+        Connection connect;
+        String url = "jdbc:mysql://localhost:3306/";
+        String username = "root";
+        String password = "";
+
+
+            try {
+                connect = DriverManager.getConnection(url, username, password);
+                pstmt = connect.prepareStatement("INSERT INTO posts " +
+                        "(description, title, price, location, datetime, url) VALUE" +
+                        "(?, ?, ?, ?, ?, ?");
+                for (Post post : posts) {
+                    pstmt.setString(1, post.getDescription());
+                    pstmt.setString(2, post.getTitle());
+                    pstmt.setString(3, post.getPrice());
+                    pstmt.setString(4, post.getLocation());
+                    pstmt.setString(5, post.getDatetime());
+                    pstmt.setString(6, post.getUrl());
+                    pstmt.executeUpdate();
+                }
+                pstmt.close();
+                connect.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+
+    }
+
+    public void addGroupsToDatabase(List<Group> groups) {
+        PreparedStatement pstmt;
+        Connection connect;
+        Statement stmt;
+        String url = "jdbc:mysql://localhost:3306/";
+        String username = "root";
+        String password = "";
+            try {
+                connect = DriverManager.getConnection(url, username, password);
+                stmt = connect.createStatement();
+                stmt.executeUpdate("USE data;");
+                pstmt = connect.prepareStatement("INSERT INTO groups " +
+                        "(name, url) VALUE" +
+                        "(?, ?");
+                for (Group group : groups) {
+                    pstmt.setString(1, group.getName());
+                    pstmt.setString(2, group.getUrl());
+                    pstmt.executeUpdate();
+                }
+                connect.close();
+                pstmt.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
     }
 
 }
