@@ -1,6 +1,9 @@
+import java.util.List;
+
 public class Group {
     private String url;
     private String name;
+    private List<String> keywords;
 
     @Override
     public String toString() {
@@ -22,4 +25,14 @@ public class Group {
     public void setName(String name) {
         this.name = name;
     }
+
+    public List<String> getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(List<String> keywords){
+        this.keywords = keywords;
+    }
+
+
 }

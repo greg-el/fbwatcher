@@ -1,4 +1,4 @@
-import org.openqa.selenium.WebDriver;
+/*import org.openqa.selenium.WebDriver;
 
 
 import javax.swing.*;
@@ -9,7 +9,7 @@ import java.util.List;
 public class UI {
     public WebDriver create(WebDriver driver) {
         Methods methods = new Methods();
-        List listGroups = methods.getGroups(driver);
+        List listGroups = methods.getGroupsFromDatabase(driver);
         JFrame f = new JFrame();
 
         JButton start = new JButton("Start");
@@ -73,3 +73,4 @@ public class UI {
         return driver;
     }
 }
+*/

@@ -31,7 +31,7 @@ public class Methods {
         return driver;
     }
 
-    public List<Group> getGroups(WebDriver driver) {
+    public List<Group> getGroupsFromFacebook(WebDriver driver) {
         List<Group> groupsList = new ArrayList<Group>();
         String pattern = "(\\/)(\\d+)(?=\\/)";
         Pattern urlNumber = Pattern.compile(pattern);
@@ -267,23 +267,86 @@ public class Methods {
             pstmt = connect.prepareStatement("SELECT * FROM groups");
             rs = pstmt.executeQuery();
             while(rs.next()) {
+                //System.out.println(rs.getString("url"));
                 boolean match = false;
                 for (Group group : groups) {
-                    System.out.println(group.getUrl());
-                    System.out.println(rs.getString("url"));
+                    //System.out.println("From facebook: " + group.getUrl());
+                    //System.out.println("From database: "+ rs.getString("url"));
                     if (group.getUrl().equals(rs.getString("url"))) {
                         match = true;
                     }
                 }
                 if (!match) {
                     System.out.println("Removing group: " + rs.getString("name"));
-                    pstmt = connect.prepareStatement("DELETE FROM groups WHERE url=?");
-                    pstmt.setString(1, rs.getString("url"));
-                    pstmt.executeUpdate();
+                    //pstmt = connect.prepareStatement("DELETE FROM groups WHERE url=?");
+                    //pstmt.setString(1, rs.getString("url"));
+                    //pstmt.executeUpdate();
                 }
             }
         } catch (Exception e ) {}
     }
 
+    public List<Group> getGroupsFromDatabase() {
+        List<Group> groups = new ArrayList<Group>();
+        PreparedStatement pstmt;
+        Connection connect;
+        Statement stmt;
+        ResultSet rs;
+        String url = "jdbc:mysql://localhost:3306/";
+        String username = "root";
+        String password = "";
+        try {
+            connect = DriverManager.getConnection(url, username, password);
+            stmt = connect.createStatement();
+            stmt.executeUpdate("USE data;");
+            pstmt = connect.prepareStatement("SELECT * FROM groups;");
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                Group group = new Group();
+                group.setName(rs.getString("name"));
+                group.setUrl(rs.getString("url"));
+                groups.add(group);
+            }
+        } catch (Exception e) {}
+        return groups;
+    }
+
+    public boolean containsKeyword(Post post, Group group) {
+        List<String> keywords = group.getKeywords();
+        for (String keyword : keywords) {
+            if (post.getDescription().contains(keyword) || post.getTitle().contains(keyword)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addKeywordsToGroup(Group group, List<String> keywords) {
+        PreparedStatement pstmt;
+        Connection connect;
+        Statement stmt;
+        ResultSet rs;
+        String url = "jdbc:mysql://localhost:3306/";
+        String username = "root";
+        String password = "";
+        int id = 0;
+        try {
+            connect = DriverManager.getConnection(url, username, password);
+            stmt = connect.createStatement();
+            stmt.executeUpdate("USE data;");
+            pstmt = connect.prepareStatement("SELECT id FROM groups WHERE name=?");
+            pstmt.setString(1, group.getName());
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt("id");
+            }
+            for (String keyword : keywords) {
+                pstmt = connect.prepareStatement("INSERT INTO keywords (keyword, group_id) VALUES (?, ?)");
+                pstmt.setString(1, keyword);
+                pstmt.setInt(2, id);
+                pstmt.executeUpdate();
+            }
+        } catch (Exception e) { }
+    }
 }
 

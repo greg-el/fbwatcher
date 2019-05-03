@@ -11,19 +11,27 @@ public class databaseSetup {
             " datetime DATETIME NOT NULL, " +
             " url VARCHAR(150) NOT NULL, " +
             " group_id MEDIUMINT, " +
-            " CONSTRAINT `fk_group_name` " +
+            " CONSTRAINT `fk_group_name_posts` " +
             "   FOREIGN KEY(group_id) REFERENCES groups (id) " +
             "   ON DELETE CASCADE " +
             "   ON UPDATE RESTRICT" +
             " ); ";
 
-    private static final String GROUP_TABLE = "CREATE TABLE groups (" +
+    private static final String GROUPS_TABLE = "CREATE TABLE groups (" +
             " id MEDIUMINT PRIMARY KEY AUTO_INCREMENT, " +
-            " name VARCHAR(100)," +
-            " url VARCHAR(132)" +
+            " name VARCHAR(100) NOT NULL, " +
+            " url VARCHAR(132) NOT NULL " +
             " );" ;
 
-
+    private static final String KEYWORDS_TABLE = "CREATE TABLE keywords (" +
+            " id MEDIUMINT PRIMARY KEY AUTO_INCREMENT, " +
+            " keyword VARCHAR(50) NOT NULL, " +
+            " group_id MEDIUMINT, " +
+            " CONSTRAINT `fk_group_name_keywords` " +
+            "   FOREIGN KEY(group_id) REFERENCES groups (id) " +
+            "   ON DELETE CASCADE " +
+            "   ON UPDATE RESTRICT" +
+            " ); ";
 
     public static void main(){
         Statement stmt;
@@ -37,10 +45,12 @@ public class databaseSetup {
             stmt = connect.createStatement();
             stmt.executeUpdate("CREATE DATABASE data");
             stmt.executeUpdate("USE data");
-            stmt.executeUpdate(GROUP_TABLE);
+            stmt.executeUpdate(GROUPS_TABLE);
             stmt.executeUpdate(POSTS_TABLE);
+            stmt.executeUpdate(KEYWORDS_TABLE);
 
-
+            stmt.close();
+            connect.close();
         } catch (Exception e) {
             System.out.println(e);
         }
