@@ -31,7 +31,7 @@ public class Methods {
         return driver;
     }
 
-    public List<Group> getMemberGroups(WebDriver driver) {
+    public List<Group> getGroups(WebDriver driver) {
         List<Group> groupsList = new ArrayList<Group>();
         String pattern = "(\\/)(\\d+)(?=\\/)";
         Pattern urlNumber = Pattern.compile(pattern);
@@ -205,7 +205,7 @@ public class Methods {
                 stmt.executeUpdate("USE data;");
                 pstmt = connect.prepareStatement("INSERT INTO groups " +
                         "(name, url) VALUE" +
-                        "(?, ?");
+                        "(?, ?)");
                 for (Group group : groups) {
                     pstmt.setString(1, group.getName());
                     pstmt.setString(2, group.getUrl());
@@ -216,6 +216,73 @@ public class Methods {
             } catch (Exception e) {
                 System.out.println(e);
             }
+    }
+
+    public void addJoinedGroups(List<Group> groups) {
+        PreparedStatement pstmt;
+        Connection connect;
+        Statement stmt;
+        ResultSet rs;
+        String url = "jdbc:mysql://localhost:3306/";
+        String username = "root";
+        String password = "";
+        try {
+            connect = DriverManager.getConnection(url, username, password);
+            stmt = connect.createStatement();
+            stmt.executeUpdate("USE data;");
+            pstmt = connect.prepareStatement("SELECT * FROM groups WHERE url = ?");
+            for (Group group : groups) {
+                pstmt.setString(1, group.getUrl());
+                rs = pstmt.executeQuery();
+                while(rs.next()) {
+                    if (rs.getString("url") == null) {
+                        pstmt = connect.prepareStatement("INSERT INTO groups " +
+                                "(name, url) VALUE" +
+                                "(?, ?)");
+                        pstmt.setString(1, group.getName());
+                        pstmt.setString(2, group.getUrl());
+                        pstmt.executeUpdate();
+                    }
+                }
+            }
+            connect.close();
+            pstmt.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void removeLeftGroups(List<Group> groups) {
+        PreparedStatement pstmt;
+        Connection connect;
+        Statement stmt;
+        ResultSet rs;
+        String url = "jdbc:mysql://localhost:3306/";
+        String username = "root";
+        String password = "";
+        try {
+            connect = DriverManager.getConnection(url, username, password);
+            stmt = connect.createStatement();
+            stmt.executeUpdate("USE data;");
+            pstmt = connect.prepareStatement("SELECT * FROM groups");
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                boolean match = false;
+                for (Group group : groups) {
+                    System.out.println(group.getUrl());
+                    System.out.println(rs.getString("url"));
+                    if (group.getUrl().equals(rs.getString("url"))) {
+                        match = true;
+                    }
+                }
+                if (!match) {
+                    System.out.println("Removing group: " + rs.getString("name"));
+                    pstmt = connect.prepareStatement("DELETE FROM groups WHERE url=?");
+                    pstmt.setString(1, rs.getString("url"));
+                    pstmt.executeUpdate();
+                }
+            }
+        } catch (Exception e ) {}
     }
 
 }

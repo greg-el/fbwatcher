@@ -9,7 +9,7 @@ import java.util.List;
 public class UI {
     public WebDriver create(WebDriver driver) {
         Methods methods = new Methods();
-        List listGroups = methods.getMemberGroups(driver);
+        List listGroups = methods.getGroups(driver);
         JFrame f = new JFrame();
 
         JButton start = new JButton("Start");
