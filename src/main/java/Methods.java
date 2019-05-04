@@ -77,7 +77,8 @@ public class Methods {
         return groupsList;
     }
 
-    public List<Post> getGroupPosts(WebDriver driver, String url) {
+    public List<Post> getGroupPosts(WebDriver driver, String urlNumber) {
+        String url = "http://www.facebook.com/groups/" + urlNumber;
         System.out.println("Collecting group posts...");
         List returnList = new ArrayList();
         driver.get(url);
@@ -90,7 +91,6 @@ public class Methods {
             driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
         }
 
-        Pattern urlNumber = Pattern.compile("(\\/)(\\d*)(?=\\/$)");
 
         List<WebElement> postHolder = driver.findElements(By.cssSelector("div[class*='_4-u2 mbm _4mrt _5jmm _5pat _5v3q _7cqq _4-u8']"));
         for (WebElement e : postHolder) {
@@ -102,15 +102,21 @@ public class Methods {
 
             try {
                 post.setTitle(e.findElement(By.cssSelector("div[class='_l53']")).getText());
-            } catch(NoSuchElementException ex) { }
+            } catch(NoSuchElementException ex) {
+                post.setTitle("");
+            }
 
             try {
                 post.setPrice(e.findElement(By.cssSelector("div[class='_l57']")).getText());
-            } catch(NoSuchElementException ex) { }
+            } catch(NoSuchElementException ex) {
+                post.setPrice("");
+            }
 
             try {
                 post.setLocation(e.findElement(By.cssSelector("div[class='_l58']")).getText());
-            } catch(NoSuchElementException ex) { }
+            } catch(NoSuchElementException ex) {
+                post.setLocation("");
+            }
 
             // datetime
             long unixTime = 0;
@@ -190,6 +196,33 @@ public class Methods {
                 System.out.println(e);
             }
 
+    }
+
+    public void addPostToDatabase(Post post) {
+        PreparedStatement pstmt;
+        Connection connect;
+        String url = "jdbc:mysql://localhost:3306/";
+        String username = "root";
+        String password = "";
+
+        try {
+            connect = DriverManager.getConnection(url, username, password);
+            pstmt = connect.prepareStatement("INSERT INTO posts " +
+                    "(description, title, price, location, datetime, url) VALUE" +
+                    "(?, ?, ?, ?, ?, ?");
+            pstmt.setString(1, post.getDescription());
+            pstmt.setString(2, post.getTitle());
+            pstmt.setString(3, post.getPrice());
+            pstmt.setString(4, post.getLocation());
+            pstmt.setString(5, post.getDatetime());
+            pstmt.setString(6, post.getUrl());
+            pstmt.executeUpdate();
+
+            pstmt.close();
+            connect.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     public void addGroupsToDatabase(List<Group> groups) {
@@ -311,8 +344,7 @@ public class Methods {
         return groups;
     }
 
-    public boolean containsKeyword(Post post, Group group) {
-        List<String> keywords = group.getKeywords();
+    public boolean containsKeyword(Post post, String name, List<String> keywords) {
         for (String keyword : keywords) {
             if (post.getDescription().contains(keyword) || post.getTitle().contains(keyword)) {
                 return true;
@@ -321,7 +353,83 @@ public class Methods {
         return false;
     }
 
-    public void addKeywordsToGroup(Group group, List<String> keywords) {
+    private String getGroupIdFromName(String name) {
+        PreparedStatement pstmt;
+        Connection connect;
+        Statement stmt;
+        ResultSet rs;
+        String url = "jdbc:mysql://localhost:3306/";
+        String username = "root";
+        String password = "";
+        String id = null;
+        try {
+            connect = DriverManager.getConnection(url, username, password);
+            stmt = connect.createStatement();
+            stmt.executeUpdate("USE data;");
+            pstmt = connect.prepareStatement("SELECT * FROM groups WHERE name=?");
+            pstmt.setString(1, name);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                id = rs.getString("id");
+            }
+        } catch (Exception e) {}
+        return id;
+    }
+
+    private List<String> getGroupKeywordsFromName(String name) {
+        List<String> groups = new ArrayList<String>();
+        PreparedStatement pstmt;
+        Connection connect;
+        Statement stmt;
+        ResultSet rs;
+        String url = "jdbc:mysql://localhost:3306/";
+        String username = "root";
+        String password = "";
+        try {
+            connect = DriverManager.getConnection(url, username, password);
+            stmt = connect.createStatement();
+            stmt.executeUpdate("USE data;");
+            pstmt = connect.prepareStatement("SELECT * FROM groups INNER JOIN keywords ON groups.id = ?");
+            pstmt.setString(1, getGroupIdFromName(name));
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                groups.add(rs.getString("keyword"));
+            }
+
+            rs.close();
+            pstmt.close();
+            stmt.close();
+            connect.close();
+        } catch (Exception e) {}
+        return groups;
+    }
+
+    public Group getGroupDataFromName(String name) {
+        PreparedStatement pstmt;
+        Connection connect;
+        Statement stmt;
+        ResultSet rs;
+        String url = "jdbc:mysql://localhost:3306/";
+        String username = "root";
+        String password = "";
+        Group group = new Group();
+        try {
+            connect = DriverManager.getConnection(url, username, password);
+            stmt = connect.createStatement();
+            stmt.executeUpdate("USE data;");
+            pstmt = connect.prepareStatement("SELECT * FROM groups WHERE name=?;");
+            pstmt.setString(1, name);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                group.setName(name);
+                group.setUrl(rs.getString("url"));
+                group.setKeywords(getGroupKeywordsFromName(name));
+            }
+        } catch (Exception e) {}
+        return group;
+    }
+
+    public void addKeywordsToGroupDatabase(Group group, List<String> keywords) {
         PreparedStatement pstmt;
         Connection connect;
         Statement stmt;

@@ -11,14 +11,23 @@ public class main {
 
         //creating methods instance
         final Methods methods = new Methods();
+
+
+
         //databaseSetup.main();
-        //Tests tests = new Tests();
+        Tests tests = new Tests();
         //tests.addTestGroupsToDatabase();
 
-        //WebDriver driver = methods.createDriver();
-        //WebDriver loggedDriver = methods.login(driver);
 
-        //List<Post> groupPosts = methods.getGroupPosts(loggedDriver, "https://www.facebook.com/groups/fleetpeople");
+
+
+        WebDriver driver = methods.createDriver();
+        WebDriver loggedDriver = methods.login(driver);
+
+        List<Post> groupPosts = methods.getGroupPosts(loggedDriver, "146278586066577");
+        for (Post post : groupPosts) {
+            System.out.println(methods.containsKeyword(post, "PUP Morbid Ska-Posting", Arrays.asList("Morbid", "Stuff")));
+        }
         //methods.addPostsToDatabase(groups);
 
 
@@ -26,14 +35,14 @@ public class main {
         //methods.removeLeftGroups(groups);
 
 
-        Group group = new Group();
-        group.setUrl("1437523589841692");
-        group.setName("FARNHAM RANTS");
-        List<String> keywords = Arrays.asList("jazz", "trumpet");
-        methods.addKeywordsToGroup(group, keywords);
+        //Group group = new Group();
+        //group.setUrl("1437523589841692");
+        //group.setName("FARNHAM RANTS");
+        //List<String> keywords = Arrays.asList("jazz", "trumpet");
+        //methods.addKeywordsToGroupDatabase(group, keywords);
 
 
-
+        //Adding group with keywords test
         //List<Group> groups = new ArrayList<Group>();
         //Group group = new Group();
         //group.setUrl("1437523589841692");
@@ -41,7 +50,13 @@ public class main {
         //group.setKeywords(Arrays.asList("the", "it"));
         //groups.add(group);
         //methods.addGroupsToDatabase(groups);
-//
+
+        //Group test = methods.getGroupDataFromName("FARNHAM RANTS");
+        //System.out.println(test.getName());
+        //System.out.println(test.getUrl());
+        //for (String keyword : test.getKeywords()) {
+        //    System.out.println(keyword);
+        //}
 
 
         //loggedDriver.quit();
