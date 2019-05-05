@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -354,8 +353,8 @@ public class Methods {
         return groupNames;
     }
 
-    public boolean containsKeyword(Post post, Group group) {
-        for (String keyword : group.getKeywords()) {
+    public boolean containsKeyword(Post post, List<String> keywords) {
+        for (String keyword : keywords) {
             if (post.getDescription().contains(keyword) || post.getTitle().contains(keyword)) {
                 return true;
             }
@@ -406,6 +405,26 @@ public class Methods {
             connect.close();
         } catch (Exception e) {}
         return groups;
+    }
+
+    public String getGroupUrlFromName(String name) {
+        PreparedStatement pstmt;
+        Connection connect;
+        Statement stmt;
+        ResultSet rs;
+        String url = null;
+        try {
+            connect = connectToDb();
+            stmt = connect.createStatement();
+            stmt.executeUpdate("USE data;");
+            pstmt = connect.prepareStatement("SELECT * FROM groups WHERE name=?");
+            pstmt.setString(1, name);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                url = rs.getString("url");
+            }
+        } catch (Exception e) {}
+        return url;
     }
 
     public Group getGroupDataFromName(String name) {

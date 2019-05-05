@@ -13,14 +13,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.openqa.selenium.WebDriver;
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class UI extends Application{
     WebDriver loggedDriver;
+    Boolean loggedIn = false;
+    Boolean selectedNotEmpty = false;
 
     @Override
     public void start(Stage stage) {
@@ -35,10 +36,12 @@ public class UI extends Application{
         //selected groups list
         final ListView<String> groupsSelectedView = new ListView<String>();
         final ObservableList<String> groupsSelected = FXCollections.observableArrayList();
+        //groupListView.setPlaceholder(new Label("No Groups Selected"));
 
         //keywords list
         final ListView<String> groupKeywordsView = new ListView<String>();
         final ObservableList<String> groupKeywords = FXCollections.observableArrayList();
+        //groupKeywordsView.setPlaceholder(new Label("No Keywords"));
 
         //labels
         Label addKeywordLabel = new Label("Enter keyword to add:");
@@ -58,6 +61,8 @@ public class UI extends Application{
         Button addKeyword = new Button("Add Keyword");
         Button removeKeyword = new Button("Remove Keyword");
         Button loginButton = new Button("Login");
+        Button startButton = new Button("Start Watching Groups");
+        startButton.setDisable(false);
 
         //Background
         GridPane gridPane = new GridPane();
@@ -70,7 +75,7 @@ public class UI extends Application{
         //Adding items to Vboxes
         VBox addRemove = new VBox(addGroup, removeGroup);
         final VBox login = new VBox(emailLabel, emailField, passwordLabel, passwordField, loginButton, loggedInConfirmation);
-        VBox keywords = new VBox(addKeywordLabel,keywordField, addKeyword, removeKeyword, groupKeywordsView);
+        VBox keywords = new VBox(addKeywordLabel,keywordField, addKeyword, groupKeywordsView, removeKeyword);
 
         //Adding VBoxes
         gridPane.add(login, 0, 1);
@@ -81,27 +86,51 @@ public class UI extends Application{
         gridPane.add(groupListView, 0, 3);
         gridPane.add(groupsSelectedView,2,3);
 
+        gridPane.add(startButton,3,1);
+        gridPane.add(refreshGroups,0,4);
+
 
         stage.setScene(new Scene(gridPane, 200, 500));
         stage.show();
 
 
         // Event listeners
+
+        startButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent mouseEvent) {
+                List<String> selections = groupsSelectedView.getItems();
+                for (String selection : selections) {
+                    System.out.println(selection);
+                    List<Post> posts = methods.getGroupPosts(loggedDriver, methods.getGroupUrlFromName(selection));
+                    for (Post post : posts) {
+                        System.out.println(post);
+                        if (methods.containsKeyword(post, methods.getGroupKeywordsFromName(selection))) {
+                            System.out.println("Group " + selection + " found a post that contains the word youre after.");
+                        }
+                    }
+                }
+            }
+        });
+
         addGroup.setOnAction(new EventHandler<ActionEvent>() {
-             public void handle(ActionEvent ActionEvent) {
+            public void handle(ActionEvent ActionEvent) {
                 String selection = groupListView.getSelectionModel().getSelectedItem();
                 if (selection != null) {
+                    selectedNotEmpty = true;
                     groupListView.getSelectionModel().clearSelection();
                     groupList.remove(selection);
                     groupsSelected.add(selection);
                     groupsSelectedView.setItems(groupsSelected.sorted()); //need this here for some reason on the add
-                    Object[] test = groupsSelected.toArray();
-                    List<String> sortedTest = new ArrayList<String>();
-                    Collections.addAll(Arrays.asList(test));
-                    for (Object test01 : test) {
-                        sortedTest.add(test01);
+                    Object[] sortedSelectedGroupArray = groupsSelected.sorted().toArray();
+                    List<Object> tempSelectedGroups = new ArrayList<Object>();
+                    Collections.addAll(tempSelectedGroups, sortedSelectedGroupArray);
+                    int index = tempSelectedGroups.indexOf(selection);
+                    ObservableList<String> keywords;
+                    groupsSelectedView.getSelectionModel().select(index);
+                    groupsSelectedView.getFocusModel().focus(index);
 
-                    }
+                    keywords = FXCollections.observableArrayList(methods.getGroupKeywordsFromName(selection));
+                    groupKeywordsView.setItems(keywords);
 
                 }
              }
@@ -115,6 +144,10 @@ public class UI extends Application{
                     groupsSelected.remove(selection);
                     groupList.add(selection);
                     groupListView.setItems(groupList.sorted());
+                    List test = groupListView.getItems();
+                    if (test.get(0).equals("")) {
+                        System.out.println("nothing in list");
+                    }
                 }
             }
         });
