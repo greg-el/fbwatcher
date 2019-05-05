@@ -3,6 +3,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 
+import java.net.ConnectException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 
@@ -18,12 +19,12 @@ import java.util.regex.Pattern;
 public class Methods {
 
 
-    public WebDriver login(WebDriver driver) {
-        Scanner login = new Scanner(System.in);
-        System.out.println("Username: ");
-        String email = login.nextLine();
-        System.out.println("Password: ");
-        String password = login.nextLine();
+    public WebDriver login(WebDriver driver, String email, String password) {
+        //Scanner login = new Scanner(System.in);
+        //System.out.println("Username: ");
+        //String email = login.nextLine();
+        //System.out.println("Password: ");
+        //String password = login.nextLine();
         driver.get("https://www.facebook.com/");
         driver.findElement(By.xpath("//input[@id='email']")).sendKeys(email);
         driver.findElement(By.xpath("//input[@id='pass']")).sendKeys(password);
@@ -36,10 +37,8 @@ public class Methods {
         String pattern = "(\\/)(\\d+)(?=\\/)";
         Pattern urlNumber = Pattern.compile(pattern);
 
-
         //Getting group page html
         driver.get("https://www.facebook.com/groups/?category=membership");
-
 
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         boolean stop = false;
@@ -168,16 +167,25 @@ public class Methods {
         return driver;
     }
 
-    public void addPostsToDatabase(List<Post> posts) {
-        PreparedStatement pstmt;
-        Connection connect;
+    private Connection connectToDb () {
         String url = "jdbc:mysql://localhost:3306/";
         String username = "root";
         String password = "";
+        Connection connect = null;
+        try {
+            connect = DriverManager.getConnection(url, username, password);
 
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return connect;
+    }
 
+    public void addPostsToDatabase(List<Post> posts) {
+        PreparedStatement pstmt;
+        Connection connect;
             try {
-                connect = DriverManager.getConnection(url, username, password);
+                connect = connectToDb();
                 pstmt = connect.prepareStatement("INSERT INTO posts " +
                         "(description, title, price, location, datetime, url) VALUE" +
                         "(?, ?, ?, ?, ?, ?");
@@ -201,12 +209,8 @@ public class Methods {
     public void addPostToDatabase(Post post) {
         PreparedStatement pstmt;
         Connection connect;
-        String url = "jdbc:mysql://localhost:3306/";
-        String username = "root";
-        String password = "";
-
         try {
-            connect = DriverManager.getConnection(url, username, password);
+            connect = connectToDb();
             pstmt = connect.prepareStatement("INSERT INTO posts " +
                     "(description, title, price, location, datetime, url) VALUE" +
                     "(?, ?, ?, ?, ?, ?");
@@ -229,11 +233,8 @@ public class Methods {
         PreparedStatement pstmt;
         Connection connect;
         Statement stmt;
-        String url = "jdbc:mysql://localhost:3306/";
-        String username = "root";
-        String password = "";
             try {
-                connect = DriverManager.getConnection(url, username, password);
+                connect = connectToDb();
                 stmt = connect.createStatement();
                 stmt.executeUpdate("USE data;");
                 pstmt = connect.prepareStatement("INSERT INTO groups " +
@@ -256,11 +257,8 @@ public class Methods {
         Connection connect;
         Statement stmt;
         ResultSet rs;
-        String url = "jdbc:mysql://localhost:3306/";
-        String username = "root";
-        String password = "";
         try {
-            connect = DriverManager.getConnection(url, username, password);
+            connect = connectToDb();
             stmt = connect.createStatement();
             stmt.executeUpdate("USE data;");
             pstmt = connect.prepareStatement("SELECT * FROM groups WHERE url = ?");
@@ -290,11 +288,8 @@ public class Methods {
         Connection connect;
         Statement stmt;
         ResultSet rs;
-        String url = "jdbc:mysql://localhost:3306/";
-        String username = "root";
-        String password = "";
         try {
-            connect = DriverManager.getConnection(url, username, password);
+            connect = connectToDb();
             stmt = connect.createStatement();
             stmt.executeUpdate("USE data;");
             pstmt = connect.prepareStatement("SELECT * FROM groups");
@@ -325,27 +320,42 @@ public class Methods {
         Connection connect;
         Statement stmt;
         ResultSet rs;
-        String url = "jdbc:mysql://localhost:3306/";
-        String username = "root";
-        String password = "";
+        Group group;
         try {
-            connect = DriverManager.getConnection(url, username, password);
+            connect = connectToDb();
             stmt = connect.createStatement();
             stmt.executeUpdate("USE data;");
             pstmt = connect.prepareStatement("SELECT * FROM groups;");
             rs = pstmt.executeQuery();
             while(rs.next()) {
-                Group group = new Group();
-                group.setName(rs.getString("name"));
-                group.setUrl(rs.getString("url"));
+                group = new Group(rs.getString("name"), rs.getString("url"), getGroupKeywordsFromName(rs.getString("name")));
                 groups.add(group);
             }
         } catch (Exception e) {}
         return groups;
     }
 
-    public boolean containsKeyword(Post post, String name, List<String> keywords) {
-        for (String keyword : keywords) {
+    public List<String> getGroupListFromDatabase() {
+        List<String> groupNames = new ArrayList<String>();
+        PreparedStatement pstmt;
+        Connection connect;
+        Statement stmt;
+        ResultSet rs;
+        try {
+            connect = connectToDb();
+            stmt = connect.createStatement();
+            stmt.executeUpdate("USE data;");
+            pstmt = connect.prepareStatement("SELECT name FROM groups;");
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                groupNames.add(rs.getString("name"));
+            }
+        } catch (Exception e) {}
+        return groupNames;
+    }
+
+    public boolean containsKeyword(Post post, Group group) {
+        for (String keyword : group.getKeywords()) {
             if (post.getDescription().contains(keyword) || post.getTitle().contains(keyword)) {
                 return true;
             }
@@ -358,12 +368,9 @@ public class Methods {
         Connection connect;
         Statement stmt;
         ResultSet rs;
-        String url = "jdbc:mysql://localhost:3306/";
-        String username = "root";
-        String password = "";
         String id = null;
         try {
-            connect = DriverManager.getConnection(url, username, password);
+            connect = connectToDb();
             stmt = connect.createStatement();
             stmt.executeUpdate("USE data;");
             pstmt = connect.prepareStatement("SELECT * FROM groups WHERE name=?");
@@ -376,20 +383,17 @@ public class Methods {
         return id;
     }
 
-    private List<String> getGroupKeywordsFromName(String name) {
+    public List<String> getGroupKeywordsFromName(String name) {
         List<String> groups = new ArrayList<String>();
         PreparedStatement pstmt;
         Connection connect;
         Statement stmt;
         ResultSet rs;
-        String url = "jdbc:mysql://localhost:3306/";
-        String username = "root";
-        String password = "";
         try {
-            connect = DriverManager.getConnection(url, username, password);
+            connect = connectToDb();
             stmt = connect.createStatement();
             stmt.executeUpdate("USE data;");
-            pstmt = connect.prepareStatement("SELECT * FROM groups INNER JOIN keywords ON groups.id = ?");
+            pstmt = connect.prepareStatement("SELECT * FROM groups INNER JOIN keywords ON groups.id = keywords.group_id WHERE keywords.group_id=?;");
             pstmt.setString(1, getGroupIdFromName(name));
             rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -409,23 +413,20 @@ public class Methods {
         Connection connect;
         Statement stmt;
         ResultSet rs;
-        String url = "jdbc:mysql://localhost:3306/";
-        String username = "root";
-        String password = "";
-        Group group = new Group();
+        Group group = null;
         try {
-            connect = DriverManager.getConnection(url, username, password);
+            connect = connectToDb();
             stmt = connect.createStatement();
             stmt.executeUpdate("USE data;");
             pstmt = connect.prepareStatement("SELECT * FROM groups WHERE name=?;");
             pstmt.setString(1, name);
             rs = pstmt.executeQuery();
             while(rs.next()) {
-                group.setName(name);
-                group.setUrl(rs.getString("url"));
-                group.setKeywords(getGroupKeywordsFromName(name));
+                group = new Group(name, rs.getString("url"), getGroupKeywordsFromName(name));
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return group;
     }
 
@@ -434,12 +435,9 @@ public class Methods {
         Connection connect;
         Statement stmt;
         ResultSet rs;
-        String url = "jdbc:mysql://localhost:3306/";
-        String username = "root";
-        String password = "";
         int id = 0;
         try {
-            connect = DriverManager.getConnection(url, username, password);
+            connect = connectToDb();
             stmt = connect.createStatement();
             stmt.executeUpdate("USE data;");
             pstmt = connect.prepareStatement("SELECT id FROM groups WHERE name=?");
@@ -456,5 +454,66 @@ public class Methods {
             }
         } catch (Exception e) { }
     }
+
+    public void addKeywordToGroupDatabase(String groupName, String keyword) {
+        PreparedStatement pstmt;
+        Connection connect;
+        Statement stmt;
+        ResultSet rs;
+        int id = 0;
+        try {
+            connect = connectToDb();
+            stmt = connect.createStatement();
+            stmt.executeUpdate("USE data;");
+            pstmt = connect.prepareStatement("SELECT id FROM groups WHERE name=?");
+            pstmt.setString(1, groupName);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt("id");
+            }
+
+            pstmt = connect.prepareStatement("INSERT INTO keywords (keyword, group_id) VALUES (?, ?)");
+            pstmt.setString(1, keyword);
+            pstmt.setInt(2, id);
+            pstmt.executeUpdate();
+
+        } catch (Exception e) { }
+    }
+
+    public void removeKeywordFromGroupDatabase(String groupName, String keyword) {
+        PreparedStatement pstmt;
+        Connection connect;
+        Statement stmt;
+        ResultSet rs;
+        int id = 0;
+        try {
+            connect = connectToDb();
+            stmt = connect.createStatement();
+            stmt.executeUpdate("USE data;");
+            pstmt = connect.prepareStatement("SELECT id FROM groups WHERE name=?");
+            pstmt.setString(1, groupName);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt("id");
+            }
+
+            pstmt = connect.prepareStatement("DELETE FROM keywords WHERE keyword=? AND group_id=?");
+            pstmt.setString(1, keyword);
+            pstmt.setInt(2, id);
+            pstmt.executeUpdate();
+
+        } catch (Exception e) { }
+    }
+
+    public boolean getLoggedInStatus(WebDriver driver) {
+        driver.get("https://www.facebook.com");
+        try {
+            driver.findElement(By.xpath("//input[starts-with(@id, 'u_0_')][@value='Log In']"));
+            return false;
+        } catch (NoSuchElementException e) {
+            return true;
+        }
+    }
+
 }
 

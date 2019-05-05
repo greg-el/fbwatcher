@@ -5,6 +5,18 @@ public class Group {
     private String name;
     private List<String> keywords;
 
+    public Group(String url, String name, List<String> keywords) {
+        this.url = url;
+        this.name = name;
+        this.keywords = keywords;
+    }
+
+    public Group() {
+        this.url = null;
+        this.name = null;
+        this.keywords = null;
+    }
+
     @Override
     public String toString() {
         return(url + "\n" + name);

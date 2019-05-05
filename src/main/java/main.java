@@ -15,24 +15,28 @@ public class main {
 
 
         //databaseSetup.main();
-        Tests tests = new Tests();
+
+        //Tests tests = new Tests();
         //tests.addTestGroupsToDatabase();
 
 
-
-
-        WebDriver driver = methods.createDriver();
-        WebDriver loggedDriver = methods.login(driver);
-
-        List<Post> groupPosts = methods.getGroupPosts(loggedDriver, "146278586066577");
-        for (Post post : groupPosts) {
-            System.out.println(methods.containsKeyword(post, "PUP Morbid Ska-Posting", Arrays.asList("Morbid", "Stuff")));
+        List<String> test = methods.getGroupKeywordsFromName("UK POP PUNK");
+        for (String test01 : test){
+            System.out.println(test01);
         }
+
+        //WebDriver driver = methods.createDriver();
+        //WebDriver loggedDriver = methods.login(driver);
+
+        //List<Post> groupPosts = methods.getGroupPosts(loggedDriver, "146278586066577");
+        //for (Post post : groupPosts) {
+        //    System.out.println(methods.containsKeyword(post, "PUP Morbid Ska-Posting", Arrays.asList("Morbid", "Stuff")));
+        //}
         //methods.addPostsToDatabase(groups);
 
 
-        //List<Group> groups = methods.getGroups(loggedDriver);
-        //methods.removeLeftGroups(groups);
+        //List<Group> groups = methods.getGroupsFromFacebook(loggedDriver);
+        //methods.addGroupsToDatabase(groups);
 
 
         //Group group = new Group();

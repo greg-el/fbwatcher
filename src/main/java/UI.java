@@ -1,76 +1,182 @@
-/*import org.openqa.selenium.WebDriver;
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import org.openqa.selenium.WebDriver;
 
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-public class UI {
-    public WebDriver create(WebDriver driver) {
-        Methods methods = new Methods();
-        List listGroups = methods.getGroupsFromDatabase(driver);
-        JFrame f = new JFrame();
+public class UI extends Application{
+    WebDriver loggedDriver;
 
-        JButton start = new JButton("Start");
-        start.setBounds(500, 400, 100, 30);
-        f.add(start);
+    @Override
+    public void start(Stage stage) {
+        final Methods methods = new Methods();
+        final WebDriver driver = methods.createDriver();
 
-        JButton addGroup = new JButton("Add");
-        addGroup.setBounds(240, 40, 100, 30);
-        f.add(addGroup);
+        //Gets groups from DB and displays
+        final ListView<String> groupListView = new ListView<String>();
+        final ObservableList<String> groupList = FXCollections.observableArrayList(methods.getGroupListFromDatabase());
+        groupListView.setItems(groupList.sorted());
 
-        JButton removeGroup = new JButton("Remove");
-        removeGroup.setBounds(240, 80, 100, 30);
-        f.add(removeGroup);
+        //selected groups list
+        final ListView<String> groupsSelectedView = new ListView<String>();
+        final ObservableList<String> groupsSelected = FXCollections.observableArrayList();
 
-        // List all groups with membership
-        final DefaultListModel groupSelectList = new DefaultListModel();
-        for (Object group : listGroups) {
-            String[] separate = group.toString().split("\\|\\*\\|");
-            groupSelectList.addElement(separate[1]);
-        }
-        final JList groupDisplayList = new JList(groupSelectList);
-        groupDisplayList.setBounds(20, 20, 150, 450);
-        JScrollPane groupScrollPane = new JScrollPane(groupDisplayList);
-        groupScrollPane.setBounds(20, 20, 200, 400);
-        f.add(groupScrollPane);
+        //keywords list
+        final ListView<String> groupKeywordsView = new ListView<String>();
+        final ObservableList<String> groupKeywords = FXCollections.observableArrayList();
 
-        // Selected groups
-        final DefaultListModel selectedGroups = new DefaultListModel();
-        final JList selectedGroupsDisplay = new JList(selectedGroups);
-        selectedGroupsDisplay.setBounds(380, 20, 200, 400);
-        JScrollPane groupSelectedScrollPane = new JScrollPane(selectedGroupsDisplay);
-        groupSelectedScrollPane.setBounds(380, 20, 200, 400);
-        f.add(groupSelectedScrollPane);
+        //labels
+        Label addKeywordLabel = new Label("Enter keyword to add:");
+        Label emailLabel = new Label("Email");
+        Label passwordLabel = new Label("Password");
+        final Label loggedInConfirmation = new Label("Not Logged In");
 
-        // adds to selected groups on add button click
-        addGroup.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (groupDisplayList.getSelectedIndex() != -1) {
-                    String data = "" + groupDisplayList.getSelectedValue();
-                    selectedGroups.addElement(data);
-                    groupSelectList.removeElement(data);
+        //text fields
+        final TextField emailField = new TextField();
+        final TextField passwordField = new PasswordField();
+        final TextField keywordField = new TextField();
+
+        //Creating buttons
+        Button addGroup = new Button(">");
+        Button removeGroup = new Button("<");
+        Button refreshGroups = new Button("Refresh Groups");
+        Button addKeyword = new Button("Add Keyword");
+        Button removeKeyword = new Button("Remove Keyword");
+        Button loginButton = new Button("Login");
+
+        //Background
+        GridPane gridPane = new GridPane();
+        gridPane.setMinSize(500, 500);
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
+        gridPane.setVgap(5);
+        gridPane.setHgap(5);
+        gridPane.setAlignment(Pos.CENTER);
+
+        //Adding items to Vboxes
+        VBox addRemove = new VBox(addGroup, removeGroup);
+        final VBox login = new VBox(emailLabel, emailField, passwordLabel, passwordField, loginButton, loggedInConfirmation);
+        VBox keywords = new VBox(addKeywordLabel,keywordField, addKeyword, removeKeyword, groupKeywordsView);
+
+        //Adding VBoxes
+        gridPane.add(login, 0, 1);
+        gridPane.add(addRemove,1, 3);
+        gridPane.add(keywords, 3, 3);
+
+        //Adding lists
+        gridPane.add(groupListView, 0, 3);
+        gridPane.add(groupsSelectedView,2,3);
+
+
+        stage.setScene(new Scene(gridPane, 200, 500));
+        stage.show();
+
+
+        // Event listeners
+        addGroup.setOnAction(new EventHandler<ActionEvent>() {
+             public void handle(ActionEvent ActionEvent) {
+                String selection = groupListView.getSelectionModel().getSelectedItem();
+                if (selection != null) {
+                    groupListView.getSelectionModel().clearSelection();
+                    groupList.remove(selection);
+                    groupsSelected.add(selection);
+                    groupsSelectedView.setItems(groupsSelected.sorted()); //need this here for some reason on the add
+                    Object[] test = groupsSelected.toArray();
+                    List<String> sortedTest = new ArrayList<String>();
+                    Collections.addAll(Arrays.asList(test));
+                    for (Object test01 : test) {
+                        sortedTest.add(test01);
+
+                    }
+
+                }
+             }
+         });
+
+        removeGroup.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent actionEvent) {
+                String selection = groupsSelectedView.getSelectionModel().getSelectedItem();
+                if (selection != null ) {
+                    groupsSelectedView.getSelectionModel().clearSelection();
+                    groupsSelected.remove(selection);
+                    groupList.add(selection);
+                    groupListView.setItems(groupList.sorted());
                 }
             }
         });
 
-        // removes selection from selected groups
-        removeGroup.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (selectedGroupsDisplay.getSelectedIndex() != -1) {
-                    String data = "" + selectedGroupsDisplay.getSelectedValue();
-                    groupSelectList.addElement(data);
-                    selectedGroups.removeElement(data);
+        groupsSelectedView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent mouseEvent) {
+                ObservableList<String> keywords;
+                String selection = groupsSelectedView.getSelectionModel().getSelectedItem();
+                if (selection != null) {
+                    keywords = FXCollections.observableArrayList(methods.getGroupKeywordsFromName(selection));
+                    groupKeywordsView.setItems(keywords);
                 }
             }
         });
 
-        f.setSize(800, 500);
-        f.setLayout(null);
-        f.setVisible(true);
 
-        return driver;
+        addKeyword.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent mouseEvent) {
+                String newKeyword = keywordField.getText();
+                ObservableList<String> keywords;
+                if (newKeyword.trim().length() > 0) {
+                    String selectedGroup = groupsSelectedView.getSelectionModel().getSelectedItem();
+                    methods.addKeywordToGroupDatabase(selectedGroup, newKeyword.trim());
+                    keywords = FXCollections.observableArrayList(methods.getGroupKeywordsFromName(selectedGroup));
+                    groupKeywordsView.setItems(keywords.sorted());
+                    keywordField.clear();
+                }
+            }
+        });
+
+        removeKeyword.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent mouseEvent) {
+                String selection = groupKeywordsView.getSelectionModel().getSelectedItem();
+                ObservableList<String> keywords;
+                if (selection != null) {
+                    String selectedGroup = groupsSelectedView.getSelectionModel().getSelectedItem();
+                    methods.removeKeywordFromGroupDatabase(selectedGroup, selection);
+                    keywords = FXCollections.observableArrayList(methods.getGroupKeywordsFromName(selectedGroup));
+                    groupKeywordsView.setItems(keywords.sorted());
+                }
+            }
+        });
+
+
+
+
+        loginButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent mouseEvent) {
+                String emailString = emailField.getText();
+                String passwordString = passwordField.getText();
+                loggedDriver = methods.login(driver, emailString, passwordString);
+
+                emailField.clear();
+                emailField.setDisable(true);
+
+                passwordField.clear();
+                passwordField.setDisable(true);
+
+                login.setDisable(true);
+                loggedInConfirmation.setText("Logged In");
+            }
+        });
+
     }
 }
-*/
