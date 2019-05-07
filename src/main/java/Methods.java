@@ -1,9 +1,9 @@
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 
-import java.net.ConnectException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 
@@ -18,17 +18,19 @@ import java.util.regex.Pattern;
 public class Methods {
 
 
-    public WebDriver login(WebDriver driver, String email, String password) {
-        //Scanner login = new Scanner(System.in);
-        //System.out.println("Username: ");
-        //String email = login.nextLine();
-        //System.out.println("Password: ");
-        //String password = login.nextLine();
+    public Login login(WebDriver driver, String email, String password) {
+        Login login = new Login();
         driver.get("https://www.facebook.com/");
         driver.findElement(By.xpath("//input[@id='email']")).sendKeys(email);
         driver.findElement(By.xpath("//input[@id='pass']")).sendKeys(password);
         driver.findElement(By.xpath("//input[starts-with(@id, 'u_0_')][@value='Log In']")).click();
-        return driver;
+        if (!getLoggedInStatus(driver)) {
+            login.setLoginSuccessful(false);
+        } else {
+            login.setLoginSuccessful(true);
+        }
+        login.setDriver(driver);
+        return login;
     }
 
     public List<Group> getGroupsFromFacebook(WebDriver driver) {
@@ -78,8 +80,11 @@ public class Methods {
     public List<Post> getGroupPosts(WebDriver driver, String urlNumber) {
         String url = "http://www.facebook.com/groups/" + urlNumber;
         System.out.println("Collecting group posts...");
-        List returnList = new ArrayList();
+        List<Post> returnList = new ArrayList<Post>();
         driver.get(url);
+
+        String urlPattern = "(\\/)(\\d+)(\\/)";
+        Pattern p = Pattern.compile(urlPattern);
 
 
         List<WebElement> clickSeeMore = driver.findElements(By.cssSelector("a[class='see_more_link'"));
@@ -137,16 +142,27 @@ public class Methods {
 
             // post url
             try {
-                post.setUrl(e.findElement(By.cssSelector("a[class='_5pcq']")).getAttribute("href"));
-            } catch(NoSuchElementException ex) { }
+                String urlBeforeRegex = e.findElement(By.cssSelector("a[class='_5pcq']")).getAttribute("href");
+                Matcher m = p.matcher(urlBeforeRegex);
+                while (m.find()) {
+                    post.setUrl(m.group(2));
+                }
+            } catch(NoSuchElementException ex) {
+                System.out.println(ex);
+            }
 
             // also sometimes a different way
             try {
-                WebElement testurl = e.findElement(By.cssSelector("span[class='fsm fwn fcg']"));
-                String postUrl = testurl.findElement(By.cssSelector("a")).getAttribute("href");
-                post.setUrl(postUrl);
+                WebElement urlElement = e.findElement(By.cssSelector("span[class='fsm fwn fcg']"));
+                String urlBeforeRegex = urlElement.findElement(By.cssSelector("a")).getAttribute("href");
+                Matcher m = p.matcher(urlBeforeRegex);
+                while (m.find()) {
+                    post.setUrl(m.group(2));
+                }
 
-            } catch(NoSuchElementException ex) { }
+            } catch(NoSuchElementException ex) {
+                System.out.println(ex);
+            }
 
             returnList.add(post);
 
@@ -181,35 +197,38 @@ public class Methods {
     }
 
     public void addPostsToDatabase(List<Post> posts) {
-        PreparedStatement pstmt;
-        Connection connect;
-            try {
-                connect = connectToDb();
-                pstmt = connect.prepareStatement("INSERT INTO posts " +
-                        "(description, title, price, location, datetime, url) VALUE" +
-                        "(?, ?, ?, ?, ?, ?");
-                for (Post post : posts) {
-                    pstmt.setString(1, post.getDescription());
-                    pstmt.setString(2, post.getTitle());
-                    pstmt.setString(3, post.getPrice());
-                    pstmt.setString(4, post.getLocation());
-                    pstmt.setString(5, post.getDatetime());
-                    pstmt.setString(6, post.getUrl());
-                    pstmt.executeUpdate();
-                }
-                pstmt.close();
-                connect.close();
-            } catch (Exception e) {
-                System.out.println(e);
+        try {
+            Connection connect = C3p0DataSource.getConnection();
+            Statement stmt = connect.createStatement();
+            stmt.executeUpdate("USE data;");
+            PreparedStatement pstmt = connect.prepareStatement("INSERT INTO posts " +
+                    "(description, title, price, location, datetime, url) VALUE" +
+                    "(?, ?, ?, ?, ?, ?");
+            for (Post post : posts) {
+                pstmt.setString(1, post.getDescription());
+                pstmt.setString(2, post.getTitle());
+                pstmt.setString(3, post.getPrice());
+                pstmt.setString(4, post.getLocation());
+                pstmt.setString(5, post.getDatetime());
+                pstmt.setString(6, post.getUrl());
+                pstmt.executeUpdate();
             }
+            pstmt.close();
+            connect.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
     }
 
     public void addPostToDatabase(Post post) {
         PreparedStatement pstmt;
         Connection connect;
+        Statement stmt;
         try {
             connect = connectToDb();
+            stmt = connect.createStatement();
+            stmt.executeUpdate("USE data;");
             pstmt = connect.prepareStatement("INSERT INTO posts " +
                     "(description, title, price, location, datetime, url) VALUE" +
                     "(?, ?, ?, ?, ?, ?");
@@ -220,6 +239,7 @@ public class Methods {
             pstmt.setString(5, post.getDatetime());
             pstmt.setString(6, post.getUrl());
             pstmt.executeUpdate();
+            System.out.println("Adding post to database");
 
             pstmt.close();
             connect.close();
@@ -294,20 +314,17 @@ public class Methods {
             pstmt = connect.prepareStatement("SELECT * FROM groups");
             rs = pstmt.executeQuery();
             while(rs.next()) {
-                //System.out.println(rs.getString("url"));
                 boolean match = false;
                 for (Group group : groups) {
-                    //System.out.println("From facebook: " + group.getUrl());
-                    //System.out.println("From database: "+ rs.getString("url"));
                     if (group.getUrl().equals(rs.getString("url"))) {
                         match = true;
                     }
                 }
                 if (!match) {
                     System.out.println("Removing group: " + rs.getString("name"));
-                    //pstmt = connect.prepareStatement("DELETE FROM groups WHERE url=?");
-                    //pstmt.setString(1, rs.getString("url"));
-                    //pstmt.executeUpdate();
+                    pstmt = connect.prepareStatement("DELETE FROM groups WHERE url=?");
+                    pstmt.setString(1, rs.getString("url"));
+                    pstmt.executeUpdate();
                 }
             }
         } catch (Exception e ) {}
@@ -336,16 +353,12 @@ public class Methods {
 
     public List<String> getGroupListFromDatabase() {
         List<String> groupNames = new ArrayList<String>();
-        PreparedStatement pstmt;
-        Connection connect;
-        Statement stmt;
-        ResultSet rs;
         try {
-            connect = connectToDb();
-            stmt = connect.createStatement();
+            Connection connect = C3p0DataSource.getConnection();
+            Statement stmt = connect.createStatement();
             stmt.executeUpdate("USE data;");
-            pstmt = connect.prepareStatement("SELECT name FROM groups;");
-            rs = pstmt.executeQuery();
+            PreparedStatement pstmt = connect.prepareStatement("SELECT name FROM groups;");
+            ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 groupNames.add(rs.getString("name"));
             }
@@ -363,38 +376,30 @@ public class Methods {
     }
 
     private String getGroupIdFromName(String name) {
-        PreparedStatement pstmt;
-        Connection connect;
-        Statement stmt;
-        ResultSet rs;
         String id = null;
         try {
-            connect = connectToDb();
-            stmt = connect.createStatement();
+            Connection connect = C3p0DataSource.getConnection();
+            Statement stmt = connect.createStatement();
             stmt.executeUpdate("USE data;");
-            pstmt = connect.prepareStatement("SELECT * FROM groups WHERE name=?");
+            PreparedStatement pstmt = connect.prepareStatement("SELECT * FROM groups WHERE name=?");
             pstmt.setString(1, name);
-            rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 id = rs.getString("id");
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {System.out.println("getGroupIdFromName: " + e);}
         return id;
     }
 
     public List<String> getGroupKeywordsFromName(String name) {
         List<String> groups = new ArrayList<String>();
-        PreparedStatement pstmt;
-        Connection connect;
-        Statement stmt;
-        ResultSet rs;
         try {
-            connect = connectToDb();
-            stmt = connect.createStatement();
+            Connection connect = C3p0DataSource.getConnection();
+            Statement stmt = connect.createStatement();
             stmt.executeUpdate("USE data;");
-            pstmt = connect.prepareStatement("SELECT * FROM groups INNER JOIN keywords ON groups.id = keywords.group_id WHERE keywords.group_id=?;");
+            PreparedStatement pstmt = connect.prepareStatement("SELECT * FROM groups INNER JOIN keywords ON groups.id = keywords.group_id WHERE keywords.group_id=?;");
             pstmt.setString(1, getGroupIdFromName(name));
-            rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 groups.add(rs.getString("keyword"));
             }
@@ -408,60 +413,50 @@ public class Methods {
     }
 
     public String getGroupUrlFromName(String name) {
-        PreparedStatement pstmt;
-        Connection connect;
-        Statement stmt;
-        ResultSet rs;
         String url = null;
         try {
-            connect = connectToDb();
-            stmt = connect.createStatement();
+            Connection connect = C3p0DataSource.getConnection();
+            Statement stmt = connect.createStatement();
             stmt.executeUpdate("USE data;");
-            pstmt = connect.prepareStatement("SELECT * FROM groups WHERE name=?");
+            PreparedStatement pstmt = connect.prepareStatement("SELECT * FROM groups WHERE name=?");
             pstmt.setString(1, name);
-            rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 url = rs.getString("url");
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {System.out.println("getGroupUrlFromName: " + e);}
         return url;
     }
 
     public Group getGroupDataFromName(String name) {
-        PreparedStatement pstmt;
-        Connection connect;
-        Statement stmt;
-        ResultSet rs;
-        Group group = null;
+        Group group = new Group();
         try {
-            connect = connectToDb();
-            stmt = connect.createStatement();
+            Connection connect = C3p0DataSource.getConnection();
+            Statement stmt = connect.createStatement();
             stmt.executeUpdate("USE data;");
-            pstmt = connect.prepareStatement("SELECT * FROM groups WHERE name=?;");
+            PreparedStatement pstmt = connect.prepareStatement("SELECT * FROM groups WHERE name=?;");
             pstmt.setString(1, name);
-            rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
-                group = new Group(name, rs.getString("url"), getGroupKeywordsFromName(name));
+                group.setName(name);
+                group.setUrl(rs.getString("url"));
+                group.setKeywords(getGroupKeywordsFromName(name));
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("getGroupDataFromName: " + e);
         }
         return group;
     }
 
     public void addKeywordsToGroupDatabase(Group group, List<String> keywords) {
-        PreparedStatement pstmt;
-        Connection connect;
-        Statement stmt;
-        ResultSet rs;
         int id = 0;
         try {
-            connect = connectToDb();
-            stmt = connect.createStatement();
+            Connection connect = C3p0DataSource.getConnection();
+            Statement stmt = connect.createStatement();
             stmt.executeUpdate("USE data;");
-            pstmt = connect.prepareStatement("SELECT id FROM groups WHERE name=?");
+            PreparedStatement pstmt = connect.prepareStatement("SELECT id FROM groups WHERE name=?");
             pstmt.setString(1, group.getName());
-            rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 id = rs.getInt("id");
             }
@@ -471,22 +466,18 @@ public class Methods {
                 pstmt.setInt(2, id);
                 pstmt.executeUpdate();
             }
-        } catch (Exception e) { }
+        } catch (Exception e) {System.out.println("addKeywordsToGroupDatabase: " + e); }
     }
 
     public void addKeywordToGroupDatabase(String groupName, String keyword) {
-        PreparedStatement pstmt;
-        Connection connect;
-        Statement stmt;
-        ResultSet rs;
         int id = 0;
         try {
-            connect = connectToDb();
-            stmt = connect.createStatement();
+            Connection connect = C3p0DataSource.getConnection();
+            Statement stmt = connect.createStatement();
             stmt.executeUpdate("USE data;");
-            pstmt = connect.prepareStatement("SELECT id FROM groups WHERE name=?");
+            PreparedStatement pstmt = connect.prepareStatement("SELECT id FROM groups WHERE name=?");
             pstmt.setString(1, groupName);
-            rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 id = rs.getInt("id");
             }
@@ -500,18 +491,14 @@ public class Methods {
     }
 
     public void removeKeywordFromGroupDatabase(String groupName, String keyword) {
-        PreparedStatement pstmt;
-        Connection connect;
-        Statement stmt;
-        ResultSet rs;
         int id = 0;
         try {
-            connect = connectToDb();
-            stmt = connect.createStatement();
+            Connection connect = C3p0DataSource.getConnection();
+            Statement stmt = connect.createStatement();
             stmt.executeUpdate("USE data;");
-            pstmt = connect.prepareStatement("SELECT id FROM groups WHERE name=?");
+            PreparedStatement pstmt = connect.prepareStatement("SELECT id FROM groups WHERE name=?");
             pstmt.setString(1, groupName);
-            rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 id = rs.getInt("id");
             }
@@ -522,6 +509,28 @@ public class Methods {
             pstmt.executeUpdate();
 
         } catch (Exception e) { }
+    }
+
+    public boolean isPostInDatabase(Post post) {
+        String postExist = null;
+        boolean isInDatabase = false;
+        try {
+            Connection connect = C3p0DataSource.getConnection();
+            Statement stmt = connect.createStatement();
+            stmt.executeUpdate("USE data;");
+            PreparedStatement pstmt = connect.prepareStatement("SELECT * FROM posts WHERE url=? LIMIT 1");
+            pstmt.setString(1, post.getUrl());
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                postExist = rs.getString("url");
+            }
+            if (postExist != null) {
+                isInDatabase = true;
+                System.out.println("Post already in database");
+            }
+
+        } catch (Exception e) { }
+        return isInDatabase;
     }
 
     public boolean getLoggedInStatus(WebDriver driver) {

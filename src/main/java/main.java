@@ -13,20 +13,26 @@ public class main {
         final Methods methods = new Methods();
 
 
+        Tests tests = new Tests();
+        tests.addWrongTypeToDatabase();
+
+
 
         //databaseSetup.main();
 
         //Tests tests = new Tests();
         //tests.addTestGroupsToDatabase();
-
-
-        List<String> test = methods.getGroupKeywordsFromName("UK POP PUNK");
-        for (String test01 : test){
-            System.out.println(test01);
-        }
-
         //WebDriver driver = methods.createDriver();
-        //WebDriver loggedDriver = methods.login(driver);
+        //Login login = methods.login(driver, "gr3gl@hotmail.com", "Bobfriend1");
+
+        //List<Post> test = methods.getGroupPosts(login.getDriver(), "667402093276096");
+        //for (Post post : test){
+        //    if (!methods.isPostInDatabase(post)){
+        //        methods.addPostToDatabase(post);
+        //    }
+        //}
+
+
 
         //List<Post> groupPosts = methods.getGroupPosts(loggedDriver, "146278586066577");
         //for (Post post : groupPosts) {

@@ -9,19 +9,21 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.openqa.selenium.WebDriver;
-
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class UI extends Application{
-    WebDriver loggedDriver;
-    Boolean loggedIn = false;
-    Boolean selectedNotEmpty = false;
+    private WebDriver loggedDriver;
+    private Boolean loggedIn = false;
+
+
+
 
     @Override
     public void start(Stage stage) {
@@ -44,6 +46,7 @@ public class UI extends Application{
         //groupKeywordsView.setPlaceholder(new Label("No Keywords"));
 
         //labels
+        final Label startLoginWarning = new Label("");
         Label addKeywordLabel = new Label("Enter keyword to add:");
         Label emailLabel = new Label("Email");
         Label passwordLabel = new Label("Password");
@@ -60,9 +63,10 @@ public class UI extends Application{
         Button refreshGroups = new Button("Refresh Groups");
         Button addKeyword = new Button("Add Keyword");
         Button removeKeyword = new Button("Remove Keyword");
-        Button loginButton = new Button("Login");
+        final Button loginButton = new Button("Login");
         Button startButton = new Button("Start Watching Groups");
         startButton.setDisable(false);
+        startButton.setId("startButton");
 
         //Background
         GridPane gridPane = new GridPane();
@@ -74,23 +78,35 @@ public class UI extends Application{
 
         //Adding items to Vboxes
         VBox addRemove = new VBox(addGroup, removeGroup);
-        final VBox login = new VBox(emailLabel, emailField, passwordLabel, passwordField, loginButton, loggedInConfirmation);
+        final HBox loginContainer = new HBox(loginButton, loggedInConfirmation);
+        loginContainer.setSpacing(10);
+        loginContainer.setAlignment(Pos.CENTER_LEFT);
+
+        final VBox login = new VBox(emailLabel, emailField, passwordLabel, passwordField, loginContainer);
+        login.setSpacing(2);
+
         VBox keywords = new VBox(addKeywordLabel,keywordField, addKeyword, groupKeywordsView, removeKeyword);
+        keywords.setSpacing(5);
+
+        VBox start = new VBox(startButton, startLoginWarning);
+
 
         //Adding VBoxes
-        gridPane.add(login, 0, 1);
-        gridPane.add(addRemove,1, 3);
-        gridPane.add(keywords, 3, 3);
+        gridPane.add(login, 0, 0);
+        gridPane.add(addRemove,2, 1);
 
-        //Adding lists
-        gridPane.add(groupListView, 0, 3);
-        gridPane.add(groupsSelectedView,2,3);
 
-        gridPane.add(startButton,3,1);
+        gridPane.add(start,4,0);
         gridPane.add(refreshGroups,0,4);
 
+        gridPane.add(groupListView,0, 1);
+        gridPane.add(groupsSelectedView,3, 1);
+        gridPane.add(keywords,4, 1);
 
-        stage.setScene(new Scene(gridPane, 200, 500));
+        Scene scene = new Scene(gridPane, 200, 500);
+        scene.getStylesheets().add(getClass().getResource("/test.css").toExternalForm());
+        stage.setScene(scene);
+
         stage.show();
 
 
@@ -98,6 +114,9 @@ public class UI extends Application{
 
         startButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent mouseEvent) {
+                if (!loggedIn) {
+                    startLoginWarning.setText("You need to be logged in before starting.");
+                }
                 List<String> selections = groupsSelectedView.getItems();
                 for (String selection : selections) {
                     System.out.println(selection);
@@ -116,7 +135,7 @@ public class UI extends Application{
             public void handle(ActionEvent ActionEvent) {
                 String selection = groupListView.getSelectionModel().getSelectedItem();
                 if (selection != null) {
-                    selectedNotEmpty = true;
+                    //selectedNotEmpty = true;
                     groupListView.getSelectionModel().clearSelection();
                     groupList.remove(selection);
                     groupsSelected.add(selection);
@@ -198,16 +217,31 @@ public class UI extends Application{
             public void handle(MouseEvent mouseEvent) {
                 String emailString = emailField.getText();
                 String passwordString = passwordField.getText();
-                loggedDriver = methods.login(driver, emailString, passwordString);
+                if (emailString.equals("") || passwordString.equals("")) {
+                    loggedInConfirmation.setText("Missing username or password");
+                    passwordField.clear();
+                } else {
+                    Login login = methods.login(driver, emailString, passwordString);
 
-                emailField.clear();
-                emailField.setDisable(true);
+                    if (!login.getLoginSuccessful()) {
+                        loggedInConfirmation.setText("Login failed, try again.");
+                        passwordField.clear();
+                    } else {
+                        emailField.clear();
+                        emailField.setDisable(true);
 
-                passwordField.clear();
-                passwordField.setDisable(true);
+                        passwordField.clear();
+                        passwordField.setDisable(true);
 
-                login.setDisable(true);
-                loggedInConfirmation.setText("Logged In");
+                        loginButton.setDisable(true);
+                        loggedInConfirmation.setText("Logged In");
+
+                        startLoginWarning.setText("");
+
+                        loggedIn = true;
+                        loggedDriver = login.getDriver();
+                    }
+                }
             }
         });
 

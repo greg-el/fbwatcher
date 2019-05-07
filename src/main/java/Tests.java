@@ -1,7 +1,6 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +34,8 @@ public class Tests {
 
             pstmt.close();
             connect.close();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
     public List<Post> returnTestPosts() {
@@ -59,6 +59,24 @@ public class Tests {
         posts.add(post1);
 
         return posts;
+    }
+
+    public void addWrongTypeToDatabase() {
+
+        //Statement stmt;
+        try {
+            Connection connect = C3p0DataSource.getConnection();
+            Statement stmt = connect.createStatement();
+            stmt.executeUpdate("USE data;");
+            PreparedStatement pstmt = connect.prepareStatement("SELECT id FROM groups WHERE name=?");
+            pstmt.setString(1, "UK POP PUNK");
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                System.out.println(rs.getString("id"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
         }
+    }
 
 }

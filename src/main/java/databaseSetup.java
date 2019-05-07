@@ -6,10 +6,10 @@ public class databaseSetup {
             " id MEDIUMINT PRIMARY KEY AUTO_INCREMENT, " +
             " description TEXT(63206) NOT NULL, " +
             " title VARCHAR(255), " +
-            " price VARCHAR(7), " +
+            " price VARCHAR(10), " +
             " location VARCHAR(100), " +
             " datetime DATETIME NOT NULL, " +
-            " url VARCHAR(150) NOT NULL, " +
+            " url VARCHAR(30) NOT NULL, " +
             " group_id MEDIUMINT, " +
             " CONSTRAINT `fk_group_name_posts` " +
             "   FOREIGN KEY(group_id) REFERENCES groups (id) " +
