@@ -195,7 +195,7 @@ public class Database {
             pstmt.setString(2, post.getTitle());
             pstmt.setString(3, post.getPrice());
             pstmt.setString(4, post.getLocation());
-            pstmt.setString(5, post.getDatetime());
+            pstmt.setDate(5, post.getDatetime());
             pstmt.setString(6, post.getUrl());
             pstmt.executeUpdate();
             System.out.println("Adding post to database");

@@ -3,17 +3,17 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Methods {
+public class Facebook {
     WebDriver createDriver() {
         //chrome webdriver executable location
         System.setProperty("webdriver.chrome.driver", "/home/greg/IdeaProjects/orgfbtestwatcher/chromedriver");
@@ -43,7 +43,7 @@ public class Methods {
     List<Post> getGroupPosts(WebDriver driver, String urlNumber) {
         String url = "http://www.facebook.com/groups/" + urlNumber;
         System.out.println("Collecting group posts...");
-        List<Post> returnList = new ArrayList<Post>();
+        List<Post> returnList = new ArrayList<>();
         driver.get(url);
 
         String urlPattern = "(\\/)(\\d+)(\\/)";
@@ -100,12 +100,12 @@ public class Methods {
             }
 
             // to ms
-            Date date = new Date(unixTime*1000L);
+            java.sql.Date date = new java.sql.Date(unixTime*1000L);
             // formatting
-            SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            dt.setTimeZone(TimeZone.getTimeZone("UTC"));
-            post.setDatetime(dt.format(date));
-
+            //SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            //dt.setTimeZone(TimeZone.getTimeZone("UTC"));
+            //post.setDatetime(dt.format(date));
+            post.setDatetime(date);
 
             // post url
             try {
@@ -181,17 +181,7 @@ public class Methods {
         return groupsList;
     }
 
-    boolean containsKeyword(Post post, List<String> keywords) {
-        for (String keyword : keywords) {
-            //System.out.println("Current post description: " + post.getDescription());
-            //System.out.println("Current post title: " + post.getTitle());
-            //System.out.println("Current keyword: " + keyword);
-            if (post.getDescription() != null && post.getDescription().contains(keyword) || post.getTitle() != null && post.getTitle().contains(keyword)) {
-                return true;
-            }
-        }
-        return false;
-    }
+
 
     boolean getLoggedInStatus(WebDriver driver) {
         driver.get("https://www.facebook.com");

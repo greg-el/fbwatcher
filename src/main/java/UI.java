@@ -2,7 +2,6 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -24,9 +23,9 @@ public class UI extends Application{
 
     @Override
     public void start(Stage stage) {
-        final Methods methods = new Methods();
+        final Facebook facebook = new Facebook();
         final Database database = new Database();
-        final WebDriver driver = methods.createDriver();
+        final WebDriver driver = facebook.createDriver();
 
         //Gets groups from DB and displays
         final ListView<String> groupListView = new ListView<>();
@@ -113,9 +112,9 @@ public class UI extends Application{
             }
             List<String> selections = groupsSelectedView.getItems();
             for (String selection : selections) {
-                List<Post> posts = methods.getGroupPosts(loggedDriver, database.getGroupUrlFromName(selection));
+                List<Post> posts = facebook.getGroupPosts(loggedDriver, database.getGroupUrlFromName(selection));
                 for (Post post : posts) {
-                    if (methods.containsKeyword(post, database.getGroupKeywordsFromName(selection)) && !database.isPostInDatabase(post)) {
+                    if (post.containsKeyword(post, database.getGroupKeywordsFromName(selection)) && !database.isPostInDatabase(post)) {
                         System.out.println("Group " + selection + " found a post that contains the word youre after.");
                         database.addPostToDatabase(post);
                     }
@@ -198,7 +197,7 @@ public class UI extends Application{
                 loggedInConfirmation.setText("Missing username or password");
                 passwordField.clear();
             } else {
-                Login login = methods.login(driver, emailString, passwordString);
+                Login login = facebook.login(driver, emailString, passwordString);
 
                 if (!login.getLoginSuccessful()) {
                     loggedInConfirmation.setText("Login failed, try again.");
