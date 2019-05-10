@@ -2,12 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="111b3b27-62bc-4012-99b3-13cea75fc253" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_12.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Database.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/org.fb.test.watcher.iml" beforeDir="false" afterPath="$PROJECT_DIR$/org.fb.test.watcher.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Methods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Methods.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/UI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -22,19 +25,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/UI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="545">
-              <caret line="126" column="25" lean-forward="true" selection-start-line="126" selection-start-column="25" selection-end-line="126" selection-end-column="25" />
+            <state relative-caret-position="124">
+              <caret line="110" column="28" lean-forward="true" selection-start-line="110" selection-start-column="28" selection-end-line="110" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="class#5106:6397" />
-                <element signature="class#6437:7135" />
-                <element signature="class#7188:7666" />
-                <element signature="class#7712:8415" />
-                <element signature="class#8463:9140" />
-                <element signature="class#9189:10465" />
               </folding>
             </state>
           </provider>
@@ -43,30 +40,51 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Methods.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="403" lean-forward="true" selection-start-line="403" selection-end-line="403" />
+            <state relative-caret-position="375">
+              <caret line="194" lean-forward="true" selection-start-line="194" selection-end-line="194" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#createDriver#0;class#Methods#0" />
                 <element signature="method#login#0;class#Methods#0" />
-                <element signature="method#addPostsToDatabase#0;class#Methods#0" />
-                <element signature="method#addPostToDatabase#0;class#Methods#0" />
-                <element signature="method#addGroupsToDatabase#0;class#Methods#0" />
-                <element signature="method#addJoinedGroups#0;class#Methods#0" />
-                <element signature="method#removeLeftGroups#0;class#Methods#0" />
-                <element signature="method#addKeywordsToGroupDatabase#0;class#Methods#0" />
-                <element signature="method#addKeywordToGroupDatabase#0;class#Methods#0" />
-                <element signature="method#removeKeywordFromGroupDatabase#0;class#Methods#0" />
+                <element signature="method#getGroupPosts#0;class#Methods#0" />
                 <element signature="method#getGroupsFromFacebook#0;class#Methods#0" />
-                <element signature="method#getGroupsFromDatabase#0;class#Methods#0" />
-                <element signature="method#getGroupKeywordsFromName#0;class#Methods#0" />
-                <element signature="method#getGroupListFromDatabase#0;class#Methods#0" />
-                <element signature="method#getGroupUrlFromName#0;class#Methods#0" />
-                <element signature="method#getGroupDataFromName#0;class#Methods#0" />
-                <element signature="method#isPostInDatabase#0;class#Methods#0" />
+                <element signature="method#containsKeyword#0;class#Methods#0" />
                 <element signature="method#getLoggedInStatus#0;class#Methods#0" />
-                <element signature="method#getGroupIdFromName#0;class#Methods#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Database.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="23" lean-forward="true" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#addKeywordToGroupDatabase#0;class#Database#0" />
+                <element signature="method#removeKeywordFromGroupDatabase#0;class#Database#0" />
+                <element signature="method#getGroupsFromDatabase#0;class#Database#0" />
+                <element signature="method#getGroupKeywordsFromName#0;class#Database#0" />
+                <element signature="method#getGroupListFromDatabase#0;class#Database#0" />
+                <element signature="method#getGroupUrlFromName#0;class#Database#0" />
+                <element signature="method#getGroupDataFromName#0;class#Database#0" />
+                <element signature="method#getGroupIdFromName#0;class#Database#0" />
+                <element signature="method#isPostInDatabase#0;class#Database#0" />
+                <element signature="method#addPostToDatabase#0;class#Database#0" />
+                <element signature="method#addGroupsToDatabase#0;class#Database#0" />
+                <element signature="method#addJoinedGroups#0;class#Database#0" />
+                <element signature="method#removeLeftGroups#0;class#Database#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/databaseSetup.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -75,7 +93,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/main.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="544">
-              <caret line="75" column="9" lean-forward="true" selection-start-line="75" selection-start-column="9" selection-end-line="75" selection-end-column="9" />
+              <caret line="75" column="9" selection-start-line="75" selection-start-column="9" selection-end-line="75" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -114,19 +132,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/test.css">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
+            <state relative-caret-position="285">
+              <caret line="19" column="32" lean-forward="true" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Login.java">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/test.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="20" lean-forward="true" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
+            <state relative-caret-position="270">
+              <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -172,12 +190,13 @@
         <option value="$PROJECT_DIR$/src/main/resources/test.css" />
         <option value="$PROJECT_DIR$/src/main/java/databaseSetup.java" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/Tests.java" />
         <option value="$PROJECT_DIR$/src/main/java/C3p0DataSource.java" />
         <option value="$PROJECT_DIR$/src/main/java/main.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Methods.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/UI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Methods.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Database.java" />
       </list>
     </option>
   </component>
@@ -440,7 +459,14 @@
       <option name="project" value="LOCAL" />
       <updated>1557272118826</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Implemented try-with-resources&#10;the start button functionality now actually works">
+      <created>1557450484291</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1557450484292</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TodoView">
@@ -454,6 +480,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1094" y="463" width="1892" height="1048" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12351029" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -464,15 +491,15 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32977587" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49891657" visible="true" weight="0.20917822" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49891657" weight="0.20917822" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3991462" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Terminal" order="6" weight="0.32977587" />
-      <window_info anchor="bottom" id="TODO" order="7" sideWeight="0.50108343" side_tool="true" visible="true" weight="0.20917822" />
+      <window_info anchor="bottom" id="TODO" order="7" sideWeight="0.5005417" side_tool="true" visible="true" weight="0.21558164" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5005417" side_tool="true" weight="0.32977587" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32977587" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.21558164" />
+      <window_info active="true" anchor="bottom" id="Messages" order="10" sideWeight="0.49945828" visible="true" weight="0.21558164" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24972914" />
@@ -554,7 +581,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="updates" />
     <MESSAGE value="Implemented C3P0 as connection pool" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented C3P0 as connection pool" />
+    <MESSAGE value="Implemented try-with-resources&#10;the start button functionality now actually works" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented try-with-resources&#10;the start button functionality now actually works" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/orgfbtestwatcher.iml">
@@ -591,13 +619,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/databaseSetup.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="36" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -615,30 +636,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Post.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="12" column="50" selection-start-line="12" selection-start-column="50" selection-end-line="12" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/C3p0DataSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="26" column="5" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="21" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Mailer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -649,24 +646,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/test.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Login.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
-          <caret line="11" column="20" lean-forward="true" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
+          <caret line="11" column="20" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/databaseSetup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="544">
-          <caret line="75" column="9" lean-forward="true" selection-start-line="75" selection-start-column="9" selection-end-line="75" selection-end-column="9" />
+          <caret line="75" column="9" selection-start-line="75" selection-start-column="9" selection-end-line="75" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -680,47 +677,82 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Methods.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/C3p0DataSource.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="403" lean-forward="true" selection-start-line="403" selection-end-line="403" />
+        <state relative-caret-position="334">
+          <caret line="26" column="5" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#createDriver#0;class#Methods#0" />
-            <element signature="method#login#0;class#Methods#0" />
-            <element signature="method#addPostsToDatabase#0;class#Methods#0" />
-            <element signature="method#addPostToDatabase#0;class#Methods#0" />
-            <element signature="method#addGroupsToDatabase#0;class#Methods#0" />
-            <element signature="method#addJoinedGroups#0;class#Methods#0" />
-            <element signature="method#removeLeftGroups#0;class#Methods#0" />
-            <element signature="method#addKeywordsToGroupDatabase#0;class#Methods#0" />
-            <element signature="method#addKeywordToGroupDatabase#0;class#Methods#0" />
-            <element signature="method#removeKeywordFromGroupDatabase#0;class#Methods#0" />
-            <element signature="method#getGroupsFromFacebook#0;class#Methods#0" />
-            <element signature="method#getGroupsFromDatabase#0;class#Methods#0" />
-            <element signature="method#getGroupKeywordsFromName#0;class#Methods#0" />
-            <element signature="method#getGroupListFromDatabase#0;class#Methods#0" />
-            <element signature="method#getGroupUrlFromName#0;class#Methods#0" />
-            <element signature="method#getGroupDataFromName#0;class#Methods#0" />
-            <element signature="method#isPostInDatabase#0;class#Methods#0" />
-            <element signature="method#getLoggedInStatus#0;class#Methods#0" />
-            <element signature="method#getGroupIdFromName#0;class#Methods#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Post.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="12" column="50" selection-start-line="12" selection-start-column="50" selection-end-line="12" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/test.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="32" lean-forward="true" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/UI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="545">
-          <caret line="126" column="25" lean-forward="true" selection-start-line="126" selection-start-column="25" selection-end-line="126" selection-end-column="25" />
+        <state relative-caret-position="124">
+          <caret line="110" column="28" lean-forward="true" selection-start-line="110" selection-start-column="28" selection-end-line="110" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="class#5106:6397" />
-            <element signature="class#6437:7135" />
-            <element signature="class#7188:7666" />
-            <element signature="class#7712:8415" />
-            <element signature="class#8463:9140" />
-            <element signature="class#9189:10465" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Methods.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="194" lean-forward="true" selection-start-line="194" selection-end-line="194" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#createDriver#0;class#Methods#0" />
+            <element signature="method#login#0;class#Methods#0" />
+            <element signature="method#getGroupPosts#0;class#Methods#0" />
+            <element signature="method#getGroupsFromFacebook#0;class#Methods#0" />
+            <element signature="method#containsKeyword#0;class#Methods#0" />
+            <element signature="method#getLoggedInStatus#0;class#Methods#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Database.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="23" lean-forward="true" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#addKeywordToGroupDatabase#0;class#Database#0" />
+            <element signature="method#removeKeywordFromGroupDatabase#0;class#Database#0" />
+            <element signature="method#getGroupsFromDatabase#0;class#Database#0" />
+            <element signature="method#getGroupKeywordsFromName#0;class#Database#0" />
+            <element signature="method#getGroupListFromDatabase#0;class#Database#0" />
+            <element signature="method#getGroupUrlFromName#0;class#Database#0" />
+            <element signature="method#getGroupDataFromName#0;class#Database#0" />
+            <element signature="method#getGroupIdFromName#0;class#Database#0" />
+            <element signature="method#isPostInDatabase#0;class#Database#0" />
+            <element signature="method#addPostToDatabase#0;class#Database#0" />
+            <element signature="method#addGroupsToDatabase#0;class#Database#0" />
+            <element signature="method#addJoinedGroups#0;class#Database#0" />
+            <element signature="method#removeLeftGroups#0;class#Database#0" />
           </folding>
         </state>
       </provider>
