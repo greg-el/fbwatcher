@@ -13,8 +13,7 @@ public class main {
         final Methods methods = new Methods();
 
 
-        Tests tests = new Tests();
-        tests.addWrongTypeToDatabase();
+
 
 
 
@@ -71,10 +70,10 @@ public class main {
 
         //loggedDriver.quit();
 
-        //List<Group> groups = methods.getGroupsFromDatabase();
-        //for (Group group : groups) {
-        //    System.out.println(group.toString());
-        //}
+        List<String> groups = methods.getGroupListFromDatabase();
+        for (String group : groups) {
+            System.out.println(group);
+        }
 
     }
 }

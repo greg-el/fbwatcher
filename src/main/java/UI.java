@@ -22,9 +22,6 @@ public class UI extends Application{
     private WebDriver loggedDriver;
     private Boolean loggedIn = false;
 
-
-
-
     @Override
     public void start(Stage stage) {
         final Methods methods = new Methods();
@@ -119,12 +116,14 @@ public class UI extends Application{
                 }
                 List<String> selections = groupsSelectedView.getItems();
                 for (String selection : selections) {
-                    System.out.println(selection);
                     List<Post> posts = methods.getGroupPosts(loggedDriver, methods.getGroupUrlFromName(selection));
                     for (Post post : posts) {
-                        System.out.println(post);
                         if (methods.containsKeyword(post, methods.getGroupKeywordsFromName(selection))) {
-                            System.out.println("Group " + selection + " found a post that contains the word youre after.");
+                            if (!methods.isPostInDatabase(post)) {
+                                System.out.println("Group " + selection + " found a post that contains the word youre after.");
+                                methods.addPostToDatabase(post);
+                            }
+
                         }
                     }
                 }
@@ -182,7 +181,6 @@ public class UI extends Application{
             }
         });
 
-
         addKeyword.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent mouseEvent) {
                 String newKeyword = keywordField.getText();
@@ -209,9 +207,6 @@ public class UI extends Application{
                 }
             }
         });
-
-
-
 
         loginButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent mouseEvent) {
