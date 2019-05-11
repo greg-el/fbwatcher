@@ -2,16 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="111b3b27-62bc-4012-99b3-13cea75fc253" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/FacebookTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_5.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/org.fb.test.watcher.iml" beforeDir="false" afterPath="$PROJECT_DIR$/org.fb.test.watcher.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Methods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Facebook.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Post.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Tests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Facebook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/FbScraper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/UI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/old_UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/old_UI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/FacebookTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/FbScraperTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -26,37 +25,48 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/UI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="18" selection-start-line="18" selection-end-line="18" />
+            <state relative-caret-position="542">
+              <caret line="59" column="60" lean-forward="true" selection-start-line="59" selection-start-column="60" selection-end-line="59" selection-end-column="60" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#5080#6233#0" />
+                <element signature="e#6269#6853#0" />
+                <element signature="e#6902#7311#0" />
+                <element signature="e#7352#7929#0" />
+                <element signature="e#7973#8529#0" />
+                <element signature="e#8571#9692#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Facebook.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/FbScraper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="630">
-              <caret line="42" column="23" lean-forward="true" selection-start-line="42" selection-start-column="15" selection-end-line="42" selection-end-column="28" />
+            <state relative-caret-position="45">
+              <caret line="3" column="48" selection-start-line="3" selection-start-column="48" selection-end-line="3" selection-end-column="48" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="method#login#0;class#FbScraper#0" />
+                <element signature="method#getDriverOnGroup#0;class#FbScraper#0" />
+                <element signature="method#getGroupPosts#0;class#FbScraper#0" />
+                <element signature="method#getGroupsFromFacebook#0;class#FbScraper#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/java/FacebookTest.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/FbScraperTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="21" column="113" selection-start-line="21" selection-start-column="113" selection-end-line="21" selection-end-column="113" />
+            <state relative-caret-position="255">
+              <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="method#testGetGroupPostsReturns#0;class#FbScraperTest#0" />
+                <element signature="method#testGetLoggedInStatus#0;class#FbScraperTest#0" />
               </folding>
             </state>
           </provider>
@@ -65,8 +75,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Database.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="585">
-              <caret line="197" column="32" selection-start-line="197" selection-start-column="32" selection-end-line="197" selection-end-column="32" />
+            <state relative-caret-position="405">
+              <caret line="185" column="38" selection-start-line="185" selection-start-column="38" selection-end-line="185" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#addKeywordToGroupDatabase#0;class#Database#0" />
@@ -78,6 +88,7 @@
                 <element signature="method#getGroupDataFromName#0;class#Database#0" />
                 <element signature="method#getGroupIdFromName#0;class#Database#0" />
                 <element signature="method#isPostInDatabase#0;class#Database#0" />
+                <element signature="method#addPostToDatabase#0;class#Database#0" />
                 <element signature="method#addGroupsToDatabase#0;class#Database#0" />
                 <element signature="method#addJoinedGroups#0;class#Database#0" />
                 <element signature="method#removeLeftGroups#0;class#Database#0" />
@@ -95,53 +106,13 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="49" selection-start-line="8" selection-start-column="49" selection-end-line="8" selection-end-column="49" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-30">
-              <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/test.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Post.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="52" column="19" selection-start-line="52" selection-start-column="19" selection-end-line="52" selection-end-column="19" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#containsKeyword#0;class#Post#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="JUnit4 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -178,14 +149,18 @@
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.java" />
         <option value="$PROJECT_DIR$/src/main/java/Tests.java" />
         <option value="$PROJECT_DIR$/src/main/java/C3p0DataSource.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/UI.java" />
         <option value="$PROJECT_DIR$/src/main/java/Methods.java" />
-        <option value="$PROJECT_DIR$/src/main/java/main.java" />
         <option value="$PROJECT_DIR$/src/main/java/Database.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Facebook.java" />
         <option value="$PROJECT_DIR$/src/main/java/Post.java" />
+        <option value="$PROJECT_DIR$/src/main/java/UI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Facebook.java" />
         <option value="$PROJECT_DIR$/src/test/java/FacebookTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/FacebookScraper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/main.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/test/java/FbScraperTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/FbScraper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/UiBack.java" />
       </list>
     </option>
   </component>
@@ -208,8 +183,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -280,7 +255,7 @@
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/test/java" />
     <property name="last_opened_file_path" value="$USER_HOME$/java-unittesting-vendingmachine" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Problems" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.3586207" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
@@ -295,6 +270,9 @@
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -308,7 +286,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.FacebookTest">
+  <component name="RunManager" selected="JUnit.FbScraperTest">
     <configuration name="Mailer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Mailer" />
       <module name="org.fb.test.watcher" />
@@ -338,10 +316,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FacebookTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="FbScraperTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="org.fb.test.watcher" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="FacebookTest" />
+      <option name="MAIN_CLASS_NAME" value="FbScraperTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -349,10 +327,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.FacebookTest" />
-        <item itemvalue="JUnit.All in org.fb.test.watcher" />
-        <item itemvalue="Application.UI" />
+        <item itemvalue="JUnit.FbScraperTest" />
         <item itemvalue="Application.main" />
+        <item itemvalue="Application.UI" />
+        <item itemvalue="JUnit.All in org.fb.test.watcher" />
         <item itemvalue="Application.Mailer" />
       </list>
     </recent_temporary>
@@ -487,18 +465,46 @@
       <option name="project" value="LOCAL" />
       <updated>1557524471886</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Started implementing tests">
+      <created>1557530329809</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1557530329809</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_org_fb_test_watcher - 2019.05.11 at 00h 07m 53s.xml">
-      <configuration name="All in org.fb.test.watcher" configurationId="JUnit" />
+    <history-entry file="FbScraperTest - 2019.05.11 at 23h 23m 22s.xml">
+      <configuration name="FbScraperTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_org_fb_test_watcher - 2019.05.11 at 00h 10m 59s.xml">
-      <configuration name="All in org.fb.test.watcher" configurationId="JUnit" />
+    <history-entry file="FbScraperTest - 2019.05.11 at 23h 24m 29s.xml">
+      <configuration name="FbScraperTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_org_fb_test_watcher - 2019.05.11 at 00h 13m 42s.xml">
-      <configuration name="All in org.fb.test.watcher" configurationId="JUnit" />
+    <history-entry file="FbScraperTest - 2019.05.11 at 23h 24m 49s.xml">
+      <configuration name="FbScraperTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="FbScraperTest - 2019.05.11 at 23h 25m 30s.xml">
+      <configuration name="FbScraperTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="FbScraperTest - 2019.05.11 at 23h 33m 15s.xml">
+      <configuration name="FbScraperTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="FbScraperTest - 2019.05.11 at 23h 36m 15s.xml">
+      <configuration name="FbScraperTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="FbScraperTest - 2019.05.11 at 23h 37m 20s.xml">
+      <configuration name="FbScraperTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="FbScraperTest - 2019.05.11 at 23h 37m 40s.xml">
+      <configuration name="FbScraperTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="FbScraperTest - 2019.05.11 at 23h 46m 27s.xml">
+      <configuration name="FbScraperTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="FbScraperTest - 2019.05.11 at 23h 47m 04s.xml">
+      <configuration name="FbScraperTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TodoView">
@@ -514,7 +520,7 @@
     <frame x="1094" y="481" width="1892" height="1030" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18309858" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1516793" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -523,7 +529,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49945828" weight="0.3297062" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49891657" visible="true" weight="0.20892274" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49891657" weight="0.29815015" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3991462" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -531,7 +537,7 @@
       <window_info anchor="bottom" id="TODO" order="7" sideWeight="0.5005417" side_tool="true" weight="0.3297062" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5005417" side_tool="true" weight="0.32977587" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32977587" />
-      <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49945828" weight="0.21558164" />
+      <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49945828" weight="0.21545158" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24972914" />
@@ -615,7 +621,8 @@
     <MESSAGE value="Implemented C3P0 as connection pool" />
     <MESSAGE value="Implemented try-with-resources&#10;the start button functionality now actually works" />
     <MESSAGE value="Refactored Methods -&gt; Database for all database methods&#10;Added java version to pom&#10;Changed anon classes to lambdas in UI actions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactored Methods -&gt; Database for all database methods&#10;Added java version to pom&#10;Changed anon classes to lambdas in UI actions" />
+    <MESSAGE value="Started implementing tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Started implementing tests" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/orgfbtestwatcher.iml">
@@ -694,41 +701,35 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Tests.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/databaseSetup.java">
+    <entry file="file://$PROJECT_DIR$/src/test/FacebookTest.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/resources/logged_in.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        <state relative-caret-position="-495" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/test_html.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2505">
+          <caret line="5" column="41" selection-start-line="5" selection-start-column="41" selection-end-line="5" selection-end-column="41" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/main.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/FbScraperTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="49" selection-start-line="8" selection-start-column="49" selection-end-line="8" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/test.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/UI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        <state relative-caret-position="255">
+          <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#testGetGroupPostsReturns#0;class#FbScraperTest#0" />
+            <element signature="method#testGetLoggedInStatus#0;class#FbScraperTest#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Database.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="197" column="32" selection-start-line="197" selection-start-column="32" selection-end-line="197" selection-end-column="32" />
+        <state relative-caret-position="405">
+          <caret line="185" column="38" selection-start-line="185" selection-start-column="38" selection-end-line="185" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#addKeywordToGroupDatabase#0;class#Database#0" />
@@ -740,6 +741,7 @@
             <element signature="method#getGroupDataFromName#0;class#Database#0" />
             <element signature="method#getGroupIdFromName#0;class#Database#0" />
             <element signature="method#isPostInDatabase#0;class#Database#0" />
+            <element signature="method#addPostToDatabase#0;class#Database#0" />
             <element signature="method#addGroupsToDatabase#0;class#Database#0" />
             <element signature="method#addJoinedGroups#0;class#Database#0" />
             <element signature="method#removeLeftGroups#0;class#Database#0" />
@@ -747,31 +749,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/FbScraper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="48" selection-start-line="3" selection-start-column="48" selection-end-line="3" selection-end-column="48" />
+          <folding>
+            <element signature="method#login#0;class#FbScraper#0" />
+            <element signature="method#getDriverOnGroup#0;class#FbScraper#0" />
+            <element signature="method#getGroupPosts#0;class#FbScraper#0" />
+            <element signature="method#getGroupsFromFacebook#0;class#FbScraper#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/test.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Post.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="52" column="19" selection-start-line="52" selection-start-column="19" selection-end-line="52" selection-end-column="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#containsKeyword#0;class#Post#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/FacebookTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="1" lean-forward="true" selection-end-line="32" selection-end-column="1" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Facebook.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="42" column="23" lean-forward="true" selection-start-line="42" selection-start-column="15" selection-end-line="42" selection-end-column="28" />
+        <state relative-caret-position="585">
+          <caret line="63" selection-start-line="63" selection-end-line="63" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -780,17 +781,50 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-30">
-          <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
+        <state relative-caret-position="165">
+          <caret line="29" column="21" selection-start-line="29" selection-start-column="21" selection-end-line="29" selection-end-column="21" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/FacebookTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="113" selection-start-line="21" selection-start-column="113" selection-end-line="21" selection-end-column="113" />
+        <state relative-caret-position="224">
+          <caret line="18" column="10" selection-start-line="18" selection-start-column="10" selection-end-line="18" selection-end-column="10" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/databaseSetup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/UiBack.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="50" selection-start-line="15" selection-start-column="50" selection-end-line="15" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/UI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="542">
+          <caret line="59" column="60" lean-forward="true" selection-start-line="59" selection-start-column="60" selection-end-line="59" selection-end-column="60" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5080#6233#0" />
+            <element signature="e#6269#6853#0" />
+            <element signature="e#6902#7311#0" />
+            <element signature="e#7352#7929#0" />
+            <element signature="e#7973#8529#0" />
+            <element signature="e#8571#9692#0" />
           </folding>
         </state>
       </provider>
@@ -852,7 +886,6 @@
             <option name="proportions">
               <list>
                 <option value="0.3586207" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>

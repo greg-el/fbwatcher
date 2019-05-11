@@ -3,17 +3,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Facebook {
+public class FbScraper {
     WebDriver createDriver() {
         //chrome webdriver executable location
         System.setProperty("webdriver.chrome.driver", "/home/greg/IdeaProjects/orgfbtestwatcher/chromedriver");
@@ -22,6 +18,7 @@ public class Facebook {
         ChromeOptions options = new ChromeOptions();
         options.setHeadless(true);
         options.addArguments("--disable-notifications");
+        new ChromeDriver(options).manage();
         return new ChromeDriver(options);
     }
 
@@ -40,14 +37,14 @@ public class Facebook {
         return login;
     }
 
-    List<Post> getGroupPosts(WebDriver driver, String urlNumber) {
+    public WebDriver getDriverOnGroup(WebDriver driver, String urlNumber) {
         String url = "http://www.facebook.com/groups/" + urlNumber;
-        System.out.println("Collecting group posts...");
-        List<Post> returnList = new ArrayList<>();
         driver.get(url);
+        return driver;
+    }
 
-        String urlPattern = "(\\/)(\\d+)(\\/)";
-        Pattern p = Pattern.compile(urlPattern);
+    List<Post> getGroupPosts(WebDriver driver) {
+        List<Post> returnList = new ArrayList<>();
 
 
         List<WebElement> clickSeeMore = driver.findElements(By.cssSelector("a[class='see_more_link'"));
@@ -96,7 +93,7 @@ public class Facebook {
             try {
                 unixTime = Integer.parseInt(e.findElement(By.cssSelector("abbr[class='_5ptz']")).getAttribute("data-utime"));
             } catch(NoSuchElementException ex) {
-                System.out.println("No time");
+
             }
 
             // to ms
@@ -109,26 +106,15 @@ public class Facebook {
 
             // post url
             try {
-                String urlBeforeRegex = e.findElement(By.cssSelector("a[class='_5pcq']")).getAttribute("href");
-                Matcher m = p.matcher(urlBeforeRegex);
-                while (m.find()) {
-                    post.setUrl(m.group(2));
-                }
-            } catch(NoSuchElementException ex) {
-                System.out.println("No url");
-            }
+                post.setUrl(e.findElement(By.cssSelector("a[class='_5pcq']")).getAttribute("href"));
+            } catch(NoSuchElementException ex) { }
 
             // also sometimes a different way
             try {
                 WebElement urlElement = e.findElement(By.cssSelector("span[class='fsm fwn fcg']"));
-                String urlBeforeRegex = urlElement.findElement(By.cssSelector("a")).getAttribute("href");
-                Matcher m = p.matcher(urlBeforeRegex);
-                while (m.find()) {
-                    post.setUrl(m.group(2));
-                }
-
+                post.setUrl(urlElement.findElement(By.cssSelector("a")).getAttribute("href"));
             } catch(NoSuchElementException ex) {
-                System.out.println("No url");
+
             }
 
             returnList.add(post);
@@ -181,10 +167,7 @@ public class Facebook {
         return groupsList;
     }
 
-
-
     boolean getLoggedInStatus(WebDriver driver) {
-        driver.get("https://www.facebook.com");
         try {
             driver.findElement(By.xpath("//input[starts-with(@id, 'u_0_')][@value='Log In']"));
             return false;

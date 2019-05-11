@@ -1,49 +1,53 @@
-import java.util.List;
+import org.openqa.selenium.WebDriver;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.net.URL;
 
 public class main {
-    public static void main (String[] args) {
+    public static void test (String[] args) {
 
-        //creating facebook instance
-        final Facebook facebook = new Facebook();
+        //creating fbScraper instance
+        final FbScraper fbScraper = new FbScraper();
         final Database database = new Database();
 
-
-
-
-
-        //databaseSetup.main();
+        //ClassLoader classLoader = getClass().getClassLoader();
+        //java.net.URL url = classLoader.getResource("test_html.html");
+        //File file = new File(url);
+        //System.out.println(url);
 
         //Tests tests = new Tests();
         //tests.addTestGroupsToDatabase();
-        //WebDriver driver = facebook.createDriver();
-        //Login login = facebook.login(driver, "gr3gl@hotmail.com", "Bobfriend1");
+        //WebDriver driver = fbScraper.createDriver();
+        //Login login = fbScraper.login(driver, "gr3gl@hotmail.com", "Bobfriend1");
 
-        //List<Post> test = facebook.getGroupPosts(login.getDriver(), "667402093276096");
+        //List<Post> test = fbScraper.getGroupPosts(login.getDriver(), "667402093276096");
         //for (Post post : test){
-        //    if (!facebook.isPostInDatabase(post)){
-        //        facebook.addPostToDatabase(post);
+        //    if (!fbScraper.isPostInDatabase(post)){
+        //        fbScraper.addPostToDatabase(post);
         //    }
         //}
 
 
 
-        //List<Post> groupPosts = facebook.getGroupPosts(loggedDriver, "146278586066577");
+        //List<Post> groupPosts = fbScraper.getGroupPosts(loggedDriver, "146278586066577");
         //for (Post post : groupPosts) {
-        //    System.out.println(facebook.containsKeyword(post, "PUP Morbid Ska-Posting", Arrays.asList("Morbid", "Stuff")));
+        //    System.out.println(fbScraper.containsKeyword(post, "PUP Morbid Ska-Posting", Arrays.asList("Morbid", "Stuff")));
         //}
-        //facebook.addPostsToDatabase(groups);
+        //fbScraper.addPostsToDatabase(groups);
 
 
-        //List<Group> groups = facebook.getGroupsFromFacebook(loggedDriver);
-        //facebook.addGroupsToDatabase(groups);
+        //List<Group> groups = fbScraper.getGroupsFromFacebook(loggedDriver);
+        //fbScraper.addGroupsToDatabase(groups);
 
 
         //Group group = new Group();
         //group.setUrl("1437523589841692");
         //group.setName("FARNHAM RANTS");
         //List<String> keywords = Arrays.asList("jazz", "trumpet");
-        //facebook.addKeywordsToGroupDatabase(group, keywords);
+        //fbScraper.addKeywordsToGroupDatabase(group, keywords);
 
 
         //Adding group with keywords test
@@ -53,9 +57,9 @@ public class main {
         //group.setName("FARNHAM RANTS");
         //group.setKeywords(Arrays.asList("the", "it"));
         //groups.add(group);
-        //facebook.addGroupsToDatabase(groups);
+        //fbScraper.addGroupsToDatabase(groups);
 
-        //Group test = facebook.getGroupDataFromName("FARNHAM RANTS");
+        //Group test = fbScraper.getGroupDataFromName("FARNHAM RANTS");
         //System.out.println(test.getName());
         //System.out.println(test.getUrl());
         //for (String keyword : test.getKeywords()) {
@@ -65,10 +69,10 @@ public class main {
 
         //loggedDriver.quit();
 
-        List<String> groups = database.getGroupListFromDatabase();
-        for (String group : groups) {
-            System.out.println(group);
-        }
+        //List<String> groups = database.getGroupListFromDatabase();
+        //for (String group : groups) {
+        //    System.out.println(group);
+        //}
 
     }
 }

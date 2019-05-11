@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UI {
     public WebDriver create(WebDriver driver) {
-        Facebook methods = new Facebook();
+        FbScraper methods = new FbScraper();
         List listGroups = methods.getGroupsFromDatabase(driver);
         JFrame f = new JFrame();
 
