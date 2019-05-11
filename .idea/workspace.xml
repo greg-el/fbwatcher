@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="111b3b27-62bc-4012-99b3-13cea75fc253" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.fb.test.watcher.iml" beforeDir="false" afterPath="$PROJECT_DIR$/org.fb.test.watcher.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Facebook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/FbScraper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/UI.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/logged_in.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/logged_out.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/post_test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/FbScraper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/FbScraper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/UI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/old_UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/old_UI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/FacebookTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/FbScraperTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -25,7 +22,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/UI.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="542">
@@ -46,14 +43,24 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/FbScraper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="48" selection-start-line="3" selection-start-column="48" selection-end-line="3" selection-end-column="48" />
+            <state relative-caret-position="315">
+              <caret line="21" column="5" lean-forward="true" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
               <folding>
+                <element signature="imports" expanded="true" />
                 <element signature="method#login#0;class#FbScraper#0" />
                 <element signature="method#getDriverOnGroup#0;class#FbScraper#0" />
                 <element signature="method#getGroupPosts#0;class#FbScraper#0" />
                 <element signature="method#getGroupsFromFacebook#0;class#FbScraper#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/logged_in.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="9" column="7" lean-forward="true" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -159,8 +166,8 @@
         <option value="$PROJECT_DIR$/src/main/java/main.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/test/java/FbScraperTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/FbScraper.java" />
         <option value="$PROJECT_DIR$/src/main/java/UiBack.java" />
+        <option value="$PROJECT_DIR$/src/main/java/FbScraper.java" />
       </list>
     </option>
   </component>
@@ -472,7 +479,14 @@
       <option name="project" value="LOCAL" />
       <updated>1557530329809</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="FbScraper testing furthered">
+      <created>1557616189155</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1557616189156</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -518,7 +532,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1094" y="481" width="1892" height="1030" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1516793" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -622,7 +635,8 @@
     <MESSAGE value="Implemented try-with-resources&#10;the start button functionality now actually works" />
     <MESSAGE value="Refactored Methods -&gt; Database for all database methods&#10;Added java version to pom&#10;Changed anon classes to lambdas in UI actions" />
     <MESSAGE value="Started implementing tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="Started implementing tests" />
+    <MESSAGE value="FbScraper testing furthered" />
+    <option name="LAST_COMMIT_MESSAGE" value="FbScraper testing furthered" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/orgfbtestwatcher.iml">
@@ -702,11 +716,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Tests.java" />
     <entry file="file://$PROJECT_DIR$/src/test/FacebookTest.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/resources/logged_in.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-495" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/test_html.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2505">
@@ -749,20 +758,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/FbScraper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="48" selection-start-line="3" selection-start-column="48" selection-end-line="3" selection-end-column="48" />
-          <folding>
-            <element signature="method#login#0;class#FbScraper#0" />
-            <element signature="method#getDriverOnGroup#0;class#FbScraper#0" />
-            <element signature="method#getGroupPosts#0;class#FbScraper#0" />
-            <element signature="method#getGroupsFromFacebook#0;class#FbScraper#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/test.css">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/UI.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
@@ -826,6 +822,27 @@
             <element signature="e#7973#8529#0" />
             <element signature="e#8571#9692#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/FbScraper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="5" lean-forward="true" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#login#0;class#FbScraper#0" />
+            <element signature="method#getDriverOnGroup#0;class#FbScraper#0" />
+            <element signature="method#getGroupPosts#0;class#FbScraper#0" />
+            <element signature="method#getGroupsFromFacebook#0;class#FbScraper#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/logged_in.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="7" lean-forward="true" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
         </state>
       </provider>
     </entry>
