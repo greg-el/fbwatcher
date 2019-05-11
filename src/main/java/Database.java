@@ -5,7 +5,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Database {
+class Database {
 
     void addKeywordToGroupDatabase(String groupName, String keyword) {
         try (Connection connect = C3p0DataSource.getConnection();

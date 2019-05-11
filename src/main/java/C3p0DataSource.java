@@ -1,12 +1,10 @@
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import com.mchange.v2.c3p0.PooledDataSource;
 
-import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class C3p0DataSource {
+class C3p0DataSource {
     private static ComboPooledDataSource cpds = new ComboPooledDataSource();
 
     static {
@@ -22,23 +20,14 @@ public class C3p0DataSource {
             cpds.setMaxIdleTime(600000);
             cpds.setMaxConnectionAge(18000000);
         } catch (PropertyVetoException e) {
-            System.out.println(e);
+            System.out.println("C3P0 datasource connection error " + e);
         }
     }
 
-    public static Connection getConnection() throws SQLException {
+    static Connection getConnection() throws SQLException {
         return  cpds.getConnection();
     }
 
-    static void cleanup(DataSource ds) throws SQLException {
-        if (ds instanceof PooledDataSource) {
-            PooledDataSource pds = (PooledDataSource) ds;
-            pds.close();
-            System.out.println("Closing datasource");
-        } else {
-            System.err.println("Not a C3P0 data source");
-        }
-    }
 
     private C3p0DataSource(){}
 }

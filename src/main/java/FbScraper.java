@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class FbScraper {
+class FbScraper {
     WebDriver createDriver() {
         //chrome webdriver executable location
         System.setProperty("webdriver.chrome.driver", "/home/greg/IdeaProjects/orgfbtestwatcher/chromedriver");
@@ -36,7 +36,7 @@ public class FbScraper {
         return login;
     }
 
-    public WebDriver getDriverOnGroup(WebDriver driver, String urlNumber) {
+    WebDriver getDriverOnGroup(WebDriver driver, String urlNumber) {
         String url = "http://www.facebook.com/groups/" + urlNumber;
         driver.get(url);
         return driver;

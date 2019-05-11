@@ -1,4 +1,5 @@
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Statement;
 
 public class databaseSetup {
 
@@ -34,25 +35,16 @@ public class databaseSetup {
             " ); ";
 
     public static void main(){
-        Statement stmt;
-        Connection connect;
-        String url = "jdbc:mysql://localhost:3306/";
-        String username = "root";
-        String password = "";
-
-        try {
-            connect = DriverManager.getConnection(url, username, password);
-            stmt = connect.createStatement();
+        try (Connection connect = C3p0DataSource.getConnection();
+             Statement stmt = connect.createStatement())
+        {
             stmt.executeUpdate("CREATE DATABASE data");
             stmt.executeUpdate("USE data");
             stmt.executeUpdate(GROUPS_TABLE);
             stmt.executeUpdate(POSTS_TABLE);
             stmt.executeUpdate(KEYWORDS_TABLE);
-
-            stmt.close();
-            connect.close();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Database creation error" + e);
         }
 
     }

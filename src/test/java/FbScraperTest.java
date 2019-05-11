@@ -5,7 +5,6 @@ import org.apache.commons.io.IOUtils;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.sql.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
