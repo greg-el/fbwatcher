@@ -98,7 +98,7 @@ public class UI extends Application{
         gridPane.add(keywordsVBox,4, 1);
 
         Scene scene = new Scene(gridPane, 200, 500);
-        scene.getStylesheets().add(getClass().getResource("/test.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/UI.css").toExternalForm());
         stage.setScene(scene);
 
         stage.show();

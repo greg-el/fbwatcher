@@ -18,7 +18,6 @@ public class FbScraper {
         ChromeOptions options = new ChromeOptions();
         options.setHeadless(true);
         options.addArguments("--disable-notifications");
-        new ChromeDriver(options).manage();
         return new ChromeDriver(options);
     }
 
